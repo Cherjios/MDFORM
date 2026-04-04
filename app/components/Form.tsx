@@ -7,6 +7,7 @@ import autoTable from 'jspdf-autotable';
 import AbstractModalHeader from 'react-bootstrap/esm/AbstractModalHeader';
 import Link from 'next/link';
 import Image from 'next/image';
+import { write } from 'fs';
 
 
 const content = {
@@ -63,63 +64,79 @@ const content = {
     allergies: "Do you have any allergies?",
     latex: "Are you allergic to Latex?",
     haveOrhad: "Do you have, or have you had any of the following:",
+    //list of illnesses
     bloodPressure: "Abnormal Blood Pressure",
-    epilepsy: "Epilepsy", 
-    osteoporosis: "Osteoporosis", 
-    alcoholAddiction: "Alcohol Addiction", 
-    faintingSpells: "Fainting Spells", 
+    epilepsy: "Epilepsy",
+    osteoporosis: "Osteoporosis",
+    alcoholAddiction: "Alcohol Addiction",
+    faintingSpells: "Fainting Spells",
     prolongedBleeding: "Prolonged Bleeding",
-    anemia: "Anemia", 
-    feverBlisters: "Fever Blisters", 
-    prostheticImplants: "Prosthetic Implants", 
-    anorexia: "Anorexia", 
-    glaucoma: "Glaucoma", 
+    anemia: "Anemia",
+    feverBlisters: "Fever Blisters",
+    prostheticImplants: "Prosthetic Implants",
+    anorexia: "Anorexia",
+    glaucoma: "Glaucoma",
     psychiatricCare: "Psychiatric Care",
-    arthritisRheumatism: "Arthritis/Rheumatism", 
-    hearingImpaired: "Hearing Impaired", 
-    radiationTherapy: "Radiation Therapy", 
-    artificialHeartValve: "Artificial Heart Valve", 
+    arthritisRheumatism: "Arthritis/Rheumatism",
+    hearingImpaired: "Hearing Impaired",
+    radiationTherapy: "Radiation Therapy",
+    artificialHeartValve: "Artificial Heart Valve",
     heartDiseaseSurgery: "Heart Disease or Surgery",
-    recreationalDrugUse: "Recreational Drug Use", 
-    artificialJoint: "Artificial Joint", 
-    heartMurmur: "Heart Murmur", 
-    removalofSpleen: "Removal of Spleen", 
+    recreationalDrugUse: "Recreational Drug Use",
+    artificialJoint: "Artificial Joint",
+    heartMurmur: "Heart Murmur",
+    removalofSpleen: "Removal of Spleen",
     asthma: "Asthma",
-    heartPacemaker: "Heart Pacemaker", 
-    rheumaticFever: "Rheumatic Fever", 
-    bulimia: "Bulimia", 
-    hemophilia: "Hemophilia", 
-    rheumaticHeartDisease: "Rheumatic Heart Disease", 
+    heartPacemaker: "Heart Pacemaker",
+    rheumaticFever: "Rheumatic Fever",
+    bulimia: "Bulimia",
+    hemophilia: "Hemophilia",
+    rheumaticHeartDisease: "Rheumatic Heart Disease",
     cancer: "Cancer",
-    hepatitis: "Hepatitis", 
-    sickleCellDisease: "Sickle Cell Disease", 
-    chemicalDependency: "Chemical Dependency", 
-    hivAids: "HIV/AIDS", 
-    sinusTrouble: "Sinus Trouble", 
+    hepatitis: "Hepatitis",
+    sickleCellDisease: "Sickle Cell Disease",
+    chemicalDependency: "Chemical Dependency",
+    hivAids: "HIV/AIDS",
+    sinusTrouble: "Sinus Trouble",
     chemotherapy: "Chemotherapy",
-    kidneyProblems: "Kidney Problems", 
-    stroke: "Stroke", 
-    chestPain: "Chest Pain", 
-    learningDisability: "Learning Disability", 
-    thyroidDisease: "Thyroid Disease", 
+    kidneyProblems: "Kidney Problems",
+    stroke: "Stroke",
+    chestPain: "Chest Pain",
+    learningDisability: "Learning Disability",
+    thyroidDisease: "Thyroid Disease",
     congenitalHeartDisease: "Congenital Heart Disease",
-    liverDisease: "Liver Disease", 
-    tuberculosis: "Tuberculosis", 
-    cortisoneMedicine: "Cortisone Medicine", 
-    lungDisease: "Lung Disease", 
-    tumors: "Tumors", 
+    liverDisease: "Liver Disease",
+    tuberculosis: "Tuberculosis",
+    cortisoneMedicine: "Cortisone Medicine",
+    lungDisease: "Lung Disease",
+    tumors: "Tumors",
     diabetes: "Diabetes",
-    mitralValveProlapse: "Mitral Valve Prolapse", 
-    ulcers: "Ulcers", 
-    emphysema: "Emphysema", 
-    neurologicalDisorders: "Neurological Disorders", 
-    venerealDisease: "Venereal Disease", 
-    organTransplant: "Organ Transplant", 
+    mitralValveProlapse: "Mitral Valve Prolapse",
+    ulcers: "Ulcers",
+    emphysema: "Emphysema",
+    neurologicalDisorders: "Neurological Disorders",
+    venerealDisease: "Venereal Disease",
+    organTransplant: "Organ Transplant",
     hospitalizationAccident: "Have you had any other serious illness, hospitalization or accident?",
-    
+    ifYesExplain: "If yes, explain",
     otherIllness: "Have you had any other serious illness, hospitalization or accident?",
-    tobacco: "Do you currently smoke or use any tobacco products?",
+    tabacco: "Do you currently smoke or use any tobacco products?",
+    option: "Select an option",
+    iDontSmooke: "I do not smoke",
+    cigarrettes: "I smoke Cigarrettes",
+    vape: "I vape", pipe: "I smoke a pipe",
     alcohol: "Do you currently drink alcoholic beverages?",
+    dontDrinkAlcohl: "I do not drink alcohol",
+    drinkOccasionally: "I drink occasionally",
+    drinkRegularly: "I drink regularly",
+    //only Women
+    onlyWomen: "ONLY FOR WOMEN",
+    pregnant: "Are you pregnant?",
+    nursing: "Are you nursing?",
+    nOfPregnancies: "Number of pregnancies",
+    nOfLivingChildren: "Number of living children",
+    birthControlMedication: "Are you taking birth control medication?",
+    becomingPregnant: "Are you planning to become pregnant?",
 
     // Dental History Section
     dentalHistory: "DENTAL HISTORY",
@@ -143,9 +160,15 @@ const content = {
     brushingInstr: "16. Have you had instructions on the correct method of brushing?",
     gumInstr: "17. Have you had instructions on the care of your gums?",
     comments: "Comments",
+    writeComments: "Write here any comments",
+    yes: "Yes",
+    no: "No",
 
     // Legal & Buttons
-    privacyNotice: "By signing this document, I acknowledge that I have read the Notice of Privacy Practices. I understand that a copy of this policy is available to me upon request.",
+    iHaveRead: "By signing this document, I acknowledge that I have read ", 
+    noticePrivacy:"the Notice of Privacy Practices. ", 
+    copy:"I understand that a copy of this policy is available to me upon request.",
+
     authStaff: "By signing this document, I authorize the clinical staff to perform x-rays, study models, photographs, or any other diagnostic procedures.",
     cancelPolicy: "By signing this document, I understand that I must cancel an appointment at least 24 hours previous, otherwise, I will have to pay a fee of $50.00.",
     respCost: "By signing this document, I agree to be responsible for the full cost of all dental services provided.",
@@ -207,65 +230,77 @@ const content = {
     haveOrhad: "¿Tiene o ha tenido alguno de los siguientes:",
     //list of illnesses
     bloodPressure: "Presión Arterial Anormal",
-    epilepsy: "Epilepsia", 
-    osteoporosis: "Osteoporosis", 
-    alcoholAddiction: "Adicción al Alcohol", 
-    faintingSpells: "Desmayos", 
+    epilepsy: "Epilepsia",
+    osteoporosis: "Osteoporosis",
+    alcoholAddiction: "Adicción al Alcohol",
+    faintingSpells: "Desmayos",
     prolongedBleeding: "Sangrado Prolongado",
-    anemia: "Anemia", 
-    feverBlisters: "Herpes Labial", 
-    prostheticImplants: "Implantes Protésicos", 
-    anorexia: "Anorexia", 
-    glaucoma: "Glaucoma", 
+    anemia: "Anemia",
+    feverBlisters: "Herpes Labial",
+    prostheticImplants: "Implantes Protésicos",
+    anorexia: "Anorexia",
+    glaucoma: "Glaucoma",
     psychiatricCare: "Cuidado Psiquiátrico",
-    arthritisRheumatism: "Artritis/Rheumatismo", 
-    hearingImpaired: "Dificultad Auditiva", 
-    radiationTherapy: "Terapia de Radiación", 
-    artificialHeartValve: "Válvula Cardíaca Artificial", 
+    arthritisRheumatism: "Artritis/Rheumatismo",
+    hearingImpaired: "Dificultad Auditiva",
+    radiationTherapy: "Terapia de Radiación",
+    artificialHeartValve: "Válvula Cardíaca Artificial",
     heartDiseaseSurgery: "Enfermedad Cardíaca o Cirugía",
-    recreationalDrugUse: "Uso Recreativo de Drogas", 
-    artificialJoint: "Articulación Artificial", 
-    heartMurmur: "Soplo en el Corazón", 
-    removalofSpleen: "Remoción del Bazo", 
+    recreationalDrugUse: "Uso Recreativo de Drogas",
+    artificialJoint: "Articulación Artificial",
+    heartMurmur: "Soplo en el Corazón",
+    removalofSpleen: "Remoción del Bazo",
     asthma: "Asthma",
-    heartPacemaker: "Marcapasos", 
-    rheumaticFever: "Fiebre Reumática", 
-    bulimia: "Bulimia", 
-    hemophilia: "Hemophilia", 
-    rheumaticHeartDisease: "Enfermedad Cardíaca Reumática", 
+    heartPacemaker: "Marcapasos",
+    rheumaticFever: "Fiebre Reumática",
+    bulimia: "Bulimia",
+    hemophilia: "Hemophilia",
+    rheumaticHeartDisease: "Enfermedad Cardíaca Reumática",
     cancer: "Cancer",
-    hepatitis: "Hepatitis", 
-    sickleCellDisease: "Anemia Falciforme", 
-    chemicalDependency: "Dependencia Química", 
-    hivAids: "HIV/AIDS", 
-    sinusTrouble: "Sinusitis", 
+    hepatitis: "Hepatitis",
+    sickleCellDisease: "Anemia Falciforme",
+    chemicalDependency: "Dependencia Química",
+    hivAids: "HIV/AIDS",
+    sinusTrouble: "Sinusitis",
     chemotherapy: "Quimioterapia",
-    kidneyProblems: "Problemas Renales", 
-    stroke: "Derrame Cerebral", 
-    chestPain: "Dolor en el Pecho", 
-    learningDisability: "Discapacidad de Aprendizaje", 
-    thyroidDisease: "Problemas de Tiroides", 
+    kidneyProblems: "Problemas Renales",
+    stroke: "Derrame Cerebral",
+    chestPain: "Dolor en el Pecho",
+    learningDisability: "Discapacidad de Aprendizaje",
+    thyroidDisease: "Problemas de Tiroides",
     congenitalHeartDisease: "Enfermedades del Corazon Congénitas",
-    liverDisease: "Enfermedad del Hígado", 
-    tuberculosis: "Tuberculosis", 
-    cortisoneMedicine: "Cortisona", 
-    lungDisease: "Problemas Pulmonares", 
-    tumors: "Tumores", 
+    liverDisease: "Enfermedad del Hígado",
+    tuberculosis: "Tuberculosis",
+    cortisoneMedicine: "Cortisona",
+    lungDisease: "Problemas Pulmonares",
+    tumors: "Tumores",
     diabetes: "Diabetes",
-    mitralValveProlapse: "Prolapso de la Válvula Mitral", 
-    ulcers: "Úlceras", 
-    emphysema: "Enfisema", 
-    neurologicalDisorders: "Trastornos Neurológicos", 
-    venerealDisease: "Enfermedad Venérea", 
-    organTransplant: "Transplante de Órganos", 
-    hospitalizationAccident: "¿Ha tenido alguna enfermedad seria, o ha sido hospitalizado o ha tenido algun accidente?",
-  
-    smokeTabaccoProducts: "", drinkAlcohol: "", pregnant: false, nursing: false, nOfPregnancies: "", nOfLivingChildren: "", birthControlMedication: false, becomingPregnant: false,
-
-    otherIllness: "¿Ha tenido otra enfermedad grave, hospitalización o accidente?",
-    tobacco: "¿Fuma o usa productos de tabaco actualmente?",
-    alcohol: "¿Consume bebidas alcohólicas actualmente?",
-
+    mitralValveProlapse: "Prolapso de la Válvula Mitral",
+    ulcers: "Úlceras",
+    emphysema: "Enfisema Pulmonar",
+    neurologicalDisorders: "Trastornos Neurológicos",
+    venerealDisease: "Enfermedad Venérea",
+    organTransplant: "Transplante de Órganos",
+    hospitalizationAccident: "¿Ha tenido alguna enfermedad seria, o ha sido hospitalizado(a) o ha tenido algun accidente?",
+    ifYesExplain: "Si es así, explique",
+    tabacco: "¿Actualmente fuma o usa productos de tabaco?",
+    option: "Seleccione una opción",
+    iDontSmooke: "No fumo",
+    cigarrettes: "Fumo cigarrillos",
+    vape: "Fumo vape",
+    pipe: "Fumo puro o pipa",
+    alcohol: "¿Consume bebidas alcohólicas?",
+    dontDrinkAlcohl: "No consumo bebidas alcohólicas",
+    drinkOccasionally: "Consumo bebidas alcohólicas ocasionalmente",
+    drinkRegularly: "Consumo bebidas alcohólicas regularmente",
+    //only Women
+    onlyWomen: "SOLO PARA MUJERES",
+    pregnant: "¿Está embarazada?",
+    nursing: "¿Está amamantando?",
+    nOfPregnancies: "Número de embarazos",
+    nOfLivingChildren: "Número de hijos vivos", 
+    birthControlMedication: "¿Está tomando anticonceptivos?",
+    becomingPregnant: "¿Está planeando quedar embarazada?",
     // Dental History Section
     dentalHistory: "HISTORIAL DENTAL",
     lastDentalVisit: "Fecha de la última visita dental",
@@ -288,9 +323,16 @@ const content = {
     brushingInstr: "16. ¿Ha recibido instrucciones sobre el cepillado correcto?",
     gumInstr: "17. ¿Ha recibido instrucciones sobre el cuidado de encías?",
     comments: "Comentarios",
+    writeComments: "Escriba sus comentarios aquí",
+    yes: "Sí",
+    no: "No",
+    sometimes: "A veces",
 
     // Legal & Buttons
-    privacyNotice: "Al firmar este documento, reconozco que he leído el Aviso de Prácticas de Privacidad. Entiendo que hay una copia disponible a mi solicitud.",
+    iHaveRead: "Al firmar este documento, reconozco que he leído ",
+    noticePrivacy:"el Aviso de Prácticas de Privacidad. ",
+    copy:"Entiendo que hay una copia disponible a mi solicitud.",
+
     authStaff: "Al firmar este documento, autorizo al personal clínico a realizar radiografías, modelos de estudio, fotografías o cualquier otro procedimiento diagnóstico.",
     cancelPolicy: "Al firmar este documento, entiendo que debo cancelar citas con 24 horas de antelación, de lo contrario, pagaré una multa de $50.00.",
     respCost: "Al firmar este documento, acepto ser responsable del costo total de todos los servicios dentales prestados.",
@@ -1096,14 +1138,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.bloodPressure} onChange={() => handleToggle('bloodPressure')} />
-                  <label className="form-check-label" htmlFor="checkBloodPressure">Abnormal Blood Pressure</label>
+                  <label className="form-check-label" htmlFor="checkBloodPressure">{t.bloodPressure}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.epilepsy} onChange={() => handleToggle('epilepsy')} />
-                  <label className="form-check-label" htmlFor="checkepilepsy">Epilepsy</label>
+                  <label className="form-check-label" htmlFor="checkepilepsy">{t.epilepsy}</label>
                 </div>
               </div>
 
@@ -1111,7 +1153,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.osteoporosis} onChange={() => handleToggle('osteoporosis')} />
-                  <label className="form-check-label" htmlFor="checkOsteoporosis">Osteoporosis</label>
+                  <label className="form-check-label" htmlFor="checkOsteoporosis">{t.osteoporosis}</label>
                 </div>
               </div>
             </div>
@@ -1121,14 +1163,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.alcoholAddiction} onChange={() => handleToggle('alcoholAddiction')} />
-                  <label className="form-check-label" htmlFor="checkAlcoholAddiction">Alcohol Addiction</label>
+                  <label className="form-check-label" htmlFor="checkAlcoholAddiction">{t.alcoholAddiction}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.faintingSpells} onChange={() => handleToggle('faintingSpells')} />
-                  <label className="form-check-label" htmlFor="checkfaintingSpell">Fainting Spell</label>
+                  <label className="form-check-label" htmlFor="checkfaintingSpell">{t.faintingSpells}</label>
                 </div>
               </div>
 
@@ -1136,7 +1178,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.prolongedBleeding} onChange={() => handleToggle('prolongedBleeding')} />
-                  <label className="form-check-label" htmlFor="checkprolongedBleeding">Prolonged Bleeding</label>
+                  <label className="form-check-label" htmlFor="checkprolongedBleeding">{t.prolongedBleeding}</label>
                 </div>
               </div>
             </div>
@@ -1146,14 +1188,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.anemia} onChange={() => handleToggle('anemia')} />
-                  <label className="form-check-label" htmlFor="checkanemia">Anemia</label>
+                  <label className="form-check-label" htmlFor="checkanemia">{t.anemia}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.feverBlisters} onChange={() => handleToggle('feverBlisters')} />
-                  <label className="form-check-label" htmlFor="checkfeverBlisters">Fever blister / Cold Sores</label>
+                  <label className="form-check-label" htmlFor="checkfeverBlisters">{t.feverBlisters}</label>
                 </div>
               </div>
 
@@ -1161,7 +1203,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.prostheticImplants} onChange={() => handleToggle('prostheticImplants')} />
-                  <label className="form-check-label" htmlFor="checkprostheticImplants">Prosthetic Implants</label>
+                  <label className="form-check-label" htmlFor="checkprostheticImplants">{t.prostheticImplants}</label>
                 </div>
               </div>
             </div>
@@ -1171,14 +1213,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.anorexia} onChange={() => handleToggle('anorexia')} />
-                  <label className="form-check-label" htmlFor="checkanorexia">Anorexia</label>
+                  <label className="form-check-label" htmlFor="checkanorexia">{t.anorexia}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.glaucoma} onChange={() => handleToggle('glaucoma')} />
-                  <label className="form-check-label" htmlFor="checkGlaucoma">Glaucoma</label>
+                  <label className="form-check-label" htmlFor="checkGlaucoma">{t.glaucoma}</label>
                 </div>
               </div>
 
@@ -1186,7 +1228,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.psychiatricCare} onChange={() => handleToggle('psychiatricCare')} />
-                  <label className="form-check-label" htmlFor="checkpsychiaricCare">Psychiatric Care</label>
+                  <label className="form-check-label" htmlFor="checkpsychiaricCare">{t.psychiatricCare}</label>
                 </div>
               </div>
             </div>
@@ -1196,14 +1238,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.arthritisRheumatism} onChange={() => handleToggle('arthritisRheumatism')} />
-                  <label className="form-check-label" htmlFor="checkarthritisRheumatism">Arthritis Rheumatism</label>
+                  <label className="form-check-label" htmlFor="checkarthritisRheumatism">{t.arthritisRheumatism}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.hearingImpaired} onChange={() => handleToggle('hearingImpaired')} />
-                  <label className="form-check-label" htmlFor="checkhearingImpaired">Hearing Impaired</label>
+                  <label className="form-check-label" htmlFor="checkhearingImpaired">{t.hearingImpaired}</label>
                 </div>
               </div>
 
@@ -1211,7 +1253,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.radiationTherapy} onChange={() => handleToggle('radiationTherapy')} />
-                  <label className="form-check-label" htmlFor="checkradiationTherapy">Radiation Therapy</label>
+                  <label className="form-check-label" htmlFor="checkradiationTherapy">{t.radiationTherapy}</label>
                 </div>
               </div>
             </div>
@@ -1221,14 +1263,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.artificialHeartValve} onChange={() => handleToggle('artificialHeartValve')} />
-                  <label className="form-check-label" htmlFor="checkartificialHeartValve">Artificial Heart Valve</label>
+                  <label className="form-check-label" htmlFor="checkartificialHeartValve">{t.artificialHeartValve}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.heartDiseaseSurgery} onChange={() => handleToggle('heartDiseaseSurgery')} />
-                  <label className="form-check-label" htmlFor="checkheartDiseaseSurgery">Heart Disease/Surgery</label>
+                  <label className="form-check-label" htmlFor="checkheartDiseaseSurgery">{t.heartDiseaseSurgery}</label>
                 </div>
               </div>
 
@@ -1236,7 +1278,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.recreationalDrugUse} onChange={() => handleToggle('recreationalDrugUse')} />
-                  <label className="form-check-label" htmlFor="checkrecreationalDrugUse">Recreational Drug Use</label>
+                  <label className="form-check-label" htmlFor="checkrecreationalDrugUse">{t.recreationalDrugUse}</label>
                 </div>
               </div>
             </div>
@@ -1246,14 +1288,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.artificialJoint} onChange={() => handleToggle('artificialJoint')} />
-                  <label className="form-check-label" htmlFor="checkartificialJoint">ArtificialJoint</label>
+                  <label className="form-check-label" htmlFor="checkartificialJoint">{t.artificialJoint}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.heartMurmur} onChange={() => handleToggle('heartMurmur')} />
-                  <label className="form-check-label" htmlFor="checkheartMurmur">Heart Murmur</label>
+                  <label className="form-check-label" htmlFor="checkheartMurmur">{t.heartMurmur}</label>
                 </div>
               </div>
 
@@ -1261,7 +1303,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.removalofSpleen} onChange={() => handleToggle('removalofSpleen')} />
-                  <label className="form-check-label" htmlFor="checkremovalofSpleen">Removal of Spleen</label>
+                  <label className="form-check-label" htmlFor="checkremovalofSpleen">{t.removalofSpleen}</label>
                 </div>
               </div>
             </div>
@@ -1271,14 +1313,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.asthma} onChange={() => handleToggle('asthma')} />
-                  <label className="form-check-label" htmlFor="checkasthma">Asthma</label>
+                  <label className="form-check-label" htmlFor="checkasthma">{t.asthma}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.heartPacemaker} onChange={() => handleToggle('heartPacemaker')} />
-                  <label className="form-check-label" htmlFor="checkheartPacemaker">Heart Pacemaker</label>
+                  <label className="form-check-label" htmlFor="checkheartPacemaker">{t.heartPacemaker}</label>
                 </div>
               </div>
 
@@ -1286,7 +1328,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.rheumaticFever} onChange={() => handleToggle('rheumaticFever')} />
-                  <label className="form-check-label" htmlFor="checkrheumaticFever">Rheumatic Fever</label>
+                  <label className="form-check-label" htmlFor="checkrheumaticFever">{t.rheumaticFever}</label>
                 </div>
               </div>
             </div>
@@ -1296,14 +1338,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.bulimia} onChange={() => handleToggle('bulimia')} />
-                  <label className="form-check-label" htmlFor="checkbulimia">Bulimia</label>
+                  <label className="form-check-label" htmlFor="checkbulimia">{t.bulimia}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.hemophilia} onChange={() => handleToggle('hemophilia')} />
-                  <label className="form-check-label" htmlFor="checkhemophilia">Hemophilia</label>
+                  <label className="form-check-label" htmlFor="checkhemophilia">{t.hemophilia}</label>
                 </div>
               </div>
 
@@ -1311,7 +1353,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.rheumaticHeartDisease} onChange={() => handleToggle('rheumaticHeartDisease')} />
-                  <label className="form-check-label" htmlFor="checkrheumaticHeartDisease">Rheumatic Heart Disease</label>
+                  <label className="form-check-label" htmlFor="checkrheumaticHeartDisease">{t.rheumaticHeartDisease}</label>
                 </div>
               </div>
             </div>
@@ -1321,14 +1363,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.cancer} onChange={() => handleToggle('cancer')} />
-                  <label className="form-check-label" htmlFor="checkcancer">Cancer</label>
+                  <label className="form-check-label" htmlFor="checkcancer">{t.cancer}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.hepatitis} onChange={() => handleToggle('hepatitis')} />
-                  <label className="form-check-label" htmlFor="checkhepatitis">Epatitis A B C</label>
+                  <label className="form-check-label" htmlFor="checkhepatitis">{t.hepatitis}</label>
                 </div>
               </div>
 
@@ -1336,7 +1378,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.sickleCellDisease} onChange={() => handleToggle('sickleCellDisease')} />
-                  <label className="form-check-label" htmlFor="checksickleCellDisease">Sickle Cell Disease</label>
+                  <label className="form-check-label" htmlFor="checksickleCellDisease">{t.sickleCellDisease}</label>
                 </div>
               </div>
             </div>
@@ -1346,14 +1388,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.chemicalDependency} onChange={() => handleToggle('chemicalDependency')} />
-                  <label className="form-check-label" htmlFor="checkchemicalDependency">Chemical Dependency</label>
+                  <label className="form-check-label" htmlFor="checkchemicalDependency">{t.chemicalDependency}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.hivAids} onChange={() => handleToggle('hivAids')} />
-                  <label className="form-check-label" htmlFor="chckhivAids">HIV/AIDS</label>
+                  <label className="form-check-label" htmlFor="chckhivAids">{t.hivAids}</label>
                 </div>
               </div>
 
@@ -1361,7 +1403,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.sinusTrouble} onChange={() => handleToggle('sinusTrouble')} />
-                  <label className="form-check-label" htmlFor="checkSinusTrouble">Sinus Trouble</label>
+                  <label className="form-check-label" htmlFor="checkSinusTrouble">{t.sinusTrouble}</label>
                 </div>
               </div>
             </div>
@@ -1371,14 +1413,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.chemotherapy} onChange={() => handleToggle('chemotherapy')} />
-                  <label className="form-check-label" htmlFor="checkchemotherapy">Chemotherapy</label>
+                  <label className="form-check-label" htmlFor="checkchemotherapy">{t.chemotherapy}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.kidneyProblems} onChange={() => handleToggle('kidneyProblems')} />
-                  <label className="form-check-label" htmlFor="checkkidneyProblems">Kidney Problems</label>
+                  <label className="form-check-label" htmlFor="checkkidneyProblems">{t.kidneyProblems}</label>
                 </div>
               </div>
 
@@ -1386,7 +1428,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.stroke} onChange={() => handleToggle('stroke')} />
-                  <label className="form-check-label" htmlFor="checkstroke">Stroke</label>
+                  <label className="form-check-label" htmlFor="checkstroke">{t.stroke}</label>
                 </div>
               </div>
             </div>
@@ -1396,14 +1438,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.chestPain} onChange={() => handleToggle('chestPain')} />
-                  <label className="form-check-label" htmlFor="checkchestPain">Chest Pain</label>
+                  <label className="form-check-label" htmlFor="checkchestPain">{t.chestPain}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.learningDisability} onChange={() => handleToggle('learningDisability')} />
-                  <label className="form-check-label" htmlFor="checklearningDisability">Learning Disablity</label>
+                  <label className="form-check-label" htmlFor="checklearningDisability">{t.learningDisability}</label>
                 </div>
               </div>
 
@@ -1411,7 +1453,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.thyroidDisease} onChange={() => handleToggle('thyroidDisease')} />
-                  <label className="form-check-label" htmlFor="checkthyrodiDisease">Thyroid Problems</label>
+                  <label className="form-check-label" htmlFor="checkthyrodiDisease">{t.thyroidDisease}</label>
                 </div>
               </div>
             </div>
@@ -1421,14 +1463,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.congenitalHeartDisease} onChange={() => handleToggle('congenitalHeartDisease')} />
-                  <label className="form-check-label" htmlFor="checkcongenitalHeartDisease">Congenital Heart Disease</label>
+                  <label className="form-check-label" htmlFor="checkcongenitalHeartDisease">{t.congenitalHeartDisease}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.liverDisease} onChange={() => handleToggle('liverDisease')} />
-                  <label className="form-check-label" htmlFor="checkliverDisease">Liver Disease</label>
+                  <label className="form-check-label" htmlFor="checkliverDisease">{t.liverDisease}</label>
                 </div>
               </div>
 
@@ -1436,7 +1478,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.tuberculosis} onChange={() => handleToggle('tuberculosis')} />
-                  <label className="form-check-label" htmlFor="checktuberculosis">Tuberculosis</label>
+                  <label className="form-check-label" htmlFor="checktuberculosis">{t.tuberculosis}</label>
                 </div>
               </div>
             </div>
@@ -1446,14 +1488,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.cortisoneMedicine} onChange={() => handleToggle('cortisoneMedicine')} />
-                  <label className="form-check-label" htmlFor="checkCortisoneMedicine">Cortisone Medicine</label>
+                  <label className="form-check-label" htmlFor="checkCortisoneMedicine">{t.cortisoneMedicine}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.lungDisease} onChange={() => handleToggle('lungDisease')} />
-                  <label className="form-check-label" htmlFor="checklungDisease">Lung Disease</label>
+                  <label className="form-check-label" htmlFor="checklungDisease">{t.lungDisease}</label>
                 </div>
               </div>
 
@@ -1461,7 +1503,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.tumors} onChange={() => handleToggle('tumors')} />
-                  <label className="form-check-label" htmlFor="checktumors">Tumors</label>
+                  <label className="form-check-label" htmlFor="checktumors">{t.tumors}</label>
                 </div>
               </div>
             </div>
@@ -1471,21 +1513,21 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.diabetes} onChange={() => handleToggle('diabetes')} />
-                  <label className="form-check-label" htmlFor="checkdiabetes">Diabetes</label>
+                  <label className="form-check-label" htmlFor="checkdiabetes">{t.diabetes}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.mitralValveProlapse} onChange={() => handleToggle('mitralValveProlapse')} />
-                  <label className="form-check-label" htmlFor="checkmitralValveProlapse">Mitral Valve Prolapse</label>
+                  <label className="form-check-label" htmlFor="checkmitralValveProlapse">{t.mitralValveProlapse}</label>
                 </div>
               </div>
               {/* Column 3 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.ulcers} onChange={() => handleToggle('ulcers')} />
-                  <label className="form-check-label" htmlFor="checkulcers">Ulcers</label>
+                  <label className="form-check-label" htmlFor="checkulcers">{t.ulcers}</label>
                 </div>
               </div>
             </div>
@@ -1495,14 +1537,14 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.emphysema} onChange={() => handleToggle('emphysema')} />
-                  <label className="form-check-label" htmlFor="checkeemphysema">Emphysema</label>
+                  <label className="form-check-label" htmlFor="checkeemphysema">{t.emphysema}</label>
                 </div>
               </div>
               {/* Column 2 */}
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.neurologicalDisorders} onChange={() => handleToggle('neurologicalDisorders')} />
-                  <label className="form-check-label" htmlFor="checkneurologicalDisorders">Neurological Disorders</label>
+                  <label className="form-check-label" htmlFor="checkneurologicalDisorders">{t.neurologicalDisorders}</label>
                 </div>
               </div>
 
@@ -1510,7 +1552,7 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.venerealDisease} onChange={() => handleToggle('venerealDisease')} />
-                  <label className="form-check-label" htmlFor="checkvenerealDisease">Venereal Disease</label>
+                  <label className="form-check-label" htmlFor="checkvenerealDisease">{t.venerealDisease}</label>
                 </div>
               </div>
             </div>
@@ -1520,308 +1562,308 @@ export default function MyForm() {
               <div className="col-md-4">
                 <div className="form-check form-switch">
                   <input className="form-check-input" type="checkbox" checked={medicalHistory.organTransplant} onChange={() => handleToggle('organTransplant')} />
-                  <label className="form-check-label" htmlFor="checkorganTransplant">Organ Transplant</label>
+                  <label className="form-check-label" htmlFor="checkorganTransplant">{t.organTransplant}</label>
                 </div>
               </div>
             </div>
             <br />
             <div className="row mb-3">
-              <h6>Have you had any other serious illness, hospitalization or accident?</h6>
+              <h6>{t.hospitalizationAccident}</h6>
               <div className="col">
-                <input name="hospitalizationAccident" className="form-control" placeholder="If yes, explain" value={medicalHistory.hospitalizationAccident} suppressHydrationWarning={true} onChange={handleChange} />
+                <input name="hospitalizationAccident" className="form-control" placeholder={t.ifYesExplain} value={medicalHistory.hospitalizationAccident} suppressHydrationWarning={true} onChange={handleChange} />
               </div>
             </div>
             {/* do you smoke question */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="smokeQuestion" className="form-label">Do you currently smoke or use any tabacco products?</label>
-                <input className="form-control" id="smokeQuestion" list="smokeQuestionanswers" name='smokeTabaccoProducts' placeholder="Select an option" value={medicalHistory.smokeTabaccoProducts || ''} onChange={handleChange} />
+                <label htmlFor="smokeQuestion" className="form-label">{t.tabacco}</label>
+                <input className="form-control" id="smokeQuestion" list="smokeQuestionanswers" name='smokeTabaccoProducts' placeholder={t.option} value={medicalHistory.smokeTabaccoProducts || ''} onChange={handleChange} />
                 <datalist id="smokeQuestionanswers">
-                  <option value="I do not smoke" />
-                  <option value="I smoke cigarettes" />
-                  <option value="Yes, I use vape" />
-                  <option value="Yes, I use pipe" />
+                  <option value={t.iDontSmooke} />
+                  <option value={t.cigarrettes} />
+                  <option value={t.vape} />
+                  <option value={t.pipe} />
                 </datalist>
               </div>
             </div>
             {/* do you drink alcohol? question */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="alcoholQuestion" className="form-label">Do you currently drink alcoholic beverages?</label>
-                <input className="form-control" id="alcoholQuestion" list="alcoholQuestionanswers" name='drinkAlcohol' placeholder="Select an option" value={medicalHistory.drinkAlcohol || ''} onChange={handleChange} />
+                <label htmlFor="alcoholQuestion" className="form-label">{t.alcohol}</label>
+                <input className="form-control" id="alcoholQuestion" list="alcoholQuestionanswers" name='drinkAlcohol' placeholder={t.option} value={medicalHistory.drinkAlcohol || ''} onChange={handleChange} />
                 <datalist id="alcoholQuestionanswers">
-                  <option value="I do not drink" />
-                  <option value="I drink occasionally" />
-                  <option value="I drink regularly" />
+                  <option value={t.dontDrinkAlcohl} />
+                  <option value={t.drinkOccasionally} />
+                  <option value={t.drinkRegularly} />
                 </datalist>
               </div>
             </div>
             {formData.sexAtBirth === "Female" && (
               <>
                 <div className="row mb-3">
-                  <h6 className="text-center">ONLY WOMEN</h6>
+                  <h6 className="text-center">{t.onlyWomen}</h6>
                   <div className="col-md-6">
                     <div className="form-check form-switch">
                       <input className="form-check-input" type="checkbox" checked={medicalHistory.pregnant} onChange={() => handleToggle('pregnant')} />
-                      <label className="form-check-label" htmlFor="checkpregnant">Are you pregnant?</label>
+                      <label className="form-check-label" htmlFor="checkpregnant">{t.pregnant}</label>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-check form-switch">
                       <input className="form-check-input" type="checkbox" checked={medicalHistory.nursing} onChange={() => handleToggle('nursing')} />
-                      <label className="form-check-label" htmlFor="checkallergicnursing">Are you nursing?</label>
+                      <label className="form-check-label" htmlFor="checkallergicnursing">{t.nursing}</label>
                     </div>
                   </div>
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <input name="nOfPregnancies" className="form-control" placeholder="Numer of pregnancies" value={medicalHistory.nOfPregnancies} onChange={handleChange} />
+                    <input name="nOfPregnancies" className="form-control" placeholder={t.nOfPregnancies} value={medicalHistory.nOfPregnancies} onChange={handleChange} />
                   </div>
                   <div className="col-md-6">
-                    <input name="nOfLivingChildren" className="form-control" placeholder="Number of living Children" value={medicalHistory.nOfLivingChildren} onChange={handleChange} />
+                    <input name="nOfLivingChildren" className="form-control" placeholder={t.nOfLivingChildren} value={medicalHistory.nOfLivingChildren} onChange={handleChange} />
                   </div>
                 </div>
                 <div className="row mb">
                   <div className="col-md-12">
                     <div className="form-check form-switch">
                       <input className="form-check-input" type="checkbox" checked={medicalHistory.birthControlMedication} onChange={() => handleToggle('birthControlMedication')} />
-                      <label className="form-check-label" htmlFor="checkbirthControlMedication">Are you using birth control medication?</label>
+                      <label className="form-check-label" htmlFor="checkbirthControlMedication">{t.birthControlMedication}</label>
                     </div>
                   </div>
                   <div className="col-mb-12">
                     <div className="form-check form-switch">
                       <input className="form-check-input" type="checkbox" checked={medicalHistory.becomingPregnant} onChange={() => handleToggle('becomingPregnant')} />
-                      <label className="form-check-label" htmlFor="checkanticipateBecomingPregnant">Do you anticipate becoming pregnant?</label>
+                      <label className="form-check-label" htmlFor="checkanticipateBecomingPregnant">{t.becomingPregnant}</label>
                     </div>
                   </div>
                 </div>
               </>)}
             <div className="row mb-3">
               <div className="col">
-                <h4 className="card-header text-center">DENTAL HISTORY</h4>
+                <h4 className="card-header text-center">{t.dentalHistory}</h4>
               </div>
             </div>
             <div className="row mb-3">
               <div className="col">
-                <label>Date of last dental visit:</label>
+                <label>{t.lastDentalVisit}</label>
                 <input name="dateLastDentalVisit" type='date' className="form-control" value={dentalHistory.dateLastDentalVisit || ''} onChange={handleChange} />
               </div>
             </div>
             <div className="row mb-3">
               <div className="col">
-                <label>Is there a problem that brought you today?</label>
-                <input name="problemBroughtYouIn" type='text' placeholder="If yes, please describe" className="form-control" value={dentalHistory.problemBroughtYouIn} onChange={handleChange} />
+                <label>{t.dentalProblem}</label>
+                <input name="problemBroughtYouIn" type='text' placeholder={t.ifYesExplain} className="form-control" value={dentalHistory.problemBroughtYouIn} onChange={handleChange} />
               </div>
             </div>
             {/* Question 1 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput" className="form-label">1. Do your gums bleed when you brush or floss?</label>
-                <input className="form-control" id="answerOptionsInput" list="answerOptionsDetalist" name='gumsBleed' placeholder="Select an option" value={dentalHistory.gumsBleed || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput" className="form-label">{t.gumsBleed}</label>
+                <input className="form-control" id="answerOptionsInput" list="answerOptionsDetalist" name='gumsBleed' placeholder={t.option} value={dentalHistory.gumsBleed || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 2 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput2" className="form-label">2. Do you experience tooth sensitivity to hot or cold temperatures?</label>
-                <input className="form-control" id="answerOptionsInput2" list="answerOptionsDetalist2" name='teethSensitiveToHotCold' placeholder="Select an option" value={dentalHistory.teethSensitiveToHotCold || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput2" className="form-label">{t.tempSensitivity}</label>
+                <input className="form-control" id="answerOptionsInput2" list="answerOptionsDetalist2" name='teethSensitiveToHotCold' placeholder={t.option} value={dentalHistory.teethSensitiveToHotCold || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist2">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 3 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput3" className="form-label">3. Do you experience tooth sensitivity to sweet or sour food?</label>
-                <input className="form-control" list="answerOptionsDetalist3" id="answerOptionsInput3" name='teethSensitiveToSweets' placeholder="Select an option" value={dentalHistory.teethSensitiveToSweets || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput3" className="form-label">{t.tasteSensitivity}</label>
+                <input className="form-control" list="answerOptionsDetalist3" id="answerOptionsInput3" name='teethSensitiveToSweets' placeholder={t.option} value={dentalHistory.teethSensitiveToSweets || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist3">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 4 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput4" className="form-label">4. Do you feel pain in any of your teeth?</label>
-                <input className="form-control" list="answerOptionsDetalist4" id="answerOptionsInput4" name='painTeeth' placeholder="Select an option" value={dentalHistory.painTeeth || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput4" className="form-label">{t.toothPain}</label>
+                <input className="form-control" list="answerOptionsDetalist4" id="answerOptionsInput4" name='painTeeth' placeholder={t.option} value={dentalHistory.painTeeth || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist4">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 5 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput5" className="form-label">5. Do you feel any sore or lump in or near your mouth?</label>
-                <input className="form-control" list="answerOptionsDetalist5" id="answerOptionsInput5" name='haveSoreOrLumpsInMouth' placeholder="Select an option" value={dentalHistory.haveSoreOrLumpsInMouth || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput5" className="form-label">{t.mouthSore}</label>
+                <input className="form-control" list="answerOptionsDetalist5" id="answerOptionsInput5" name='haveSoreOrLumpsInMouth' placeholder={t.option} value={dentalHistory.haveSoreOrLumpsInMouth || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist5">
-                  <option value="Yes" />
-                  <option value="No" />
-                  {/* <option value="Sometimes"/> */}
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  {/* <option value={t.sometimes}/> */}
                 </datalist>
               </div>
             </div>
             {/* Question 6 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput6" className="form-label">6. Have you ever had any head, neck or jaw injury?</label>
-                <input className="form-control" list="answerOptionsDetalist6" id="answerOptionsInput6" name='neckJawInjuries' placeholder="Select an option" value={dentalHistory.neckJawInjuries || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput6" className="form-label">{t.jawInjury}</label>
+                <input className="form-control" list="answerOptionsDetalist6" id="answerOptionsInput6" name='neckJawInjuries' placeholder={t.option} value={dentalHistory.neckJawInjuries || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist6">
-                  <option value="Yes" />
-                  <option value="No" />
-                  {/* <option value="Sometimes"/> */}
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  {/* <option value={t.sometimes}/> */}
                 </datalist>
               </div>
             </div>
             {/* Question 7 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput7" className="form-label">7. Do you have frequent headaches?</label>
-                <input className="form-control" list="answerOptionsDetalist7" id="answerOptionsInput7" name='headaches' placeholder="Select an option" value={dentalHistory.headaches || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput7" className="form-label">{t.headaches}</label>
+                <input className="form-control" list="answerOptionsDetalist7" id="answerOptionsInput7" name='headaches' placeholder={t.option} value={dentalHistory.headaches || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist7">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 8 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput8" className="form-label">8. Do you clench or grind your teeth?</label>
-                <input className="form-control" list="answerOptionsDetalist8" id="answerOptionsInput8" name='grindTeeth' placeholder="Select an option" value={dentalHistory.grindTeeth || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput8" className="form-label">{t.grindTeeth}</label>
+                <input className="form-control" list="answerOptionsDetalist8" id="answerOptionsInput8" name='grindTeeth' placeholder={t.option} value={dentalHistory.grindTeeth || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist8">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 9 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput9" className="form-label">9. Do you bite your lips or cheeks frequently?</label>
-                <input className="form-control" list="answerOptionsDetalist9" id="answerOptionsInput9" name='biteCheeksLips' placeholder="Select an option" value={dentalHistory.biteCheeksLips || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput9" className="form-label">{t.biteCheek}</label>
+                <input className="form-control" list="answerOptionsDetalist9" id="answerOptionsInput9" name='biteCheeksLips' placeholder={t.option} value={dentalHistory.biteCheeksLips || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist9">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 10 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput10" className="form-label">10. Have you ever experienced clicking of your jaw?</label>
-                <input className="form-control" list="answerOptionsDetalist10" id="answerOptionsInput10" name='expereiencedClickingJaw' placeholder="Select an option" value={dentalHistory.expereiencedClickingJaw || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput10" className="form-label">{t.jawClick}</label>
+                <input className="form-control" list="answerOptionsDetalist10" id="answerOptionsInput10" name='expereiencedClickingJaw' placeholder={t.option} value={dentalHistory.expereiencedClickingJaw || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist10">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 11 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput11" className="form-label">11. Have you ever experienced pain (joint, ear, side of face)?</label>
-                <input className="form-control" list="answerOptionsDetalist11" id="answerOptionsInput11" name='faceEarjointPain' placeholder="Select an option" value={dentalHistory.faceEarjointPain || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput11" className="form-label">{t.facePain}</label>
+                <input className="form-control" list="answerOptionsDetalist11" id="answerOptionsInput11" name='faceEarjointPain' placeholder={t.option} value={dentalHistory.faceEarjointPain || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist11">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 12 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput12" className="form-label">12. Have you ever experienced difficulty opening or closing your mouth?</label>
-                <input className="form-control" list="answerOptionsDetalist12" id="answerOptionsInput12" name='difficultyOpeningMouth' placeholder="Select an option" value={dentalHistory.difficultyOpeningMouth || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput12" className="form-label">{t.mouthOpen}</label>
+                <input className="form-control" list="answerOptionsDetalist12" id="answerOptionsInput12" name='difficultyOpeningMouth' placeholder={t.option} value={dentalHistory.difficultyOpeningMouth || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist12">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 13 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput13" className="form-label">13. Have you ever experienced difficulty in chewing?</label>
-                <input className="form-control" list="answerOptionsDetalist13" id="answerOptionsInput13" name='difficultyChewing' placeholder="Select an option" value={dentalHistory.difficultyChewing || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput13" className="form-label">{t.chewing}</label>
+                <input className="form-control" list="answerOptionsDetalist13" id="answerOptionsInput13" name='difficultyChewing' placeholder={t.option} value={dentalHistory.difficultyChewing || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist13">
-                  <option value="Yes" />
-                  <option value="No" />
-                  <option value="Sometimes" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
                 </datalist>
               </div>
             </div>
             {/* Question 14 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput14" className="form-label">14. Have you had any orthodontic treatment(braces)?</label>
-                <input className="form-control" list="answerOptionsDetalist14" id="answerOptionsInput14" name='orthodontic' placeholder="Select an option" value={dentalHistory.orthodontic || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput14" className="form-label">{t.ortho}</label>
+                <input className="form-control" list="answerOptionsDetalist14" id="answerOptionsInput14" name='orthodontic' placeholder={t.option} value={dentalHistory.orthodontic || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist14">
-                  <option value="Yes" />
-                  <option value="No" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
                 </datalist>
               </div>
             </div>
             {/* Question 15 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput15" className="form-label">15. Have you had prolonged bleeding after an extraction?</label>
-                <input className="form-control" list="answerOptionsDetalist15" id="answerOptionsInput15" name='dentalProlongedBleeding' placeholder="Select an option" value={dentalHistory.dentalProlongedBleeding || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput15" className="form-label">{t.extractionBleed}</label>
+                <input className="form-control" list="answerOptionsDetalist15" id="answerOptionsInput15" name='dentalProlongedBleeding' placeholder={t.option} value={dentalHistory.dentalProlongedBleeding || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist15">
-                  <option value="Yes" />
-                  <option value="No" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
                 </datalist>
               </div>
             </div>
             {/* Question 16 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput16" className="form-label">16. Have you ever had instructions on the correct method of brushing your teeth?</label>
-                <input className="form-control" list="answerOptionsDetalist16" id="answerOptionsInput16" name='instructioinsOfBrushing' placeholder="Select an option" value={dentalHistory.instructioinsOfBrushing || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput16" className="form-label">{t.brushingInstr}</label>
+                <input className="form-control" list="answerOptionsDetalist16" id="answerOptionsInput16" name='instructioinsOfBrushing' placeholder={t.option} value={dentalHistory.instructioinsOfBrushing || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist16">
-                  <option value="Yes" />
-                  <option value="No" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
                 </datalist>
               </div>
             </div>
             {/* Question 17 */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput17" className="form-label">17. Have you ever had instructions on the care of your gums?</label>
-                <input className="form-control" list="answerOptionsDetalist17" id="answerOptionsInput17" name='careOfGums' placeholder="Select an option" value={dentalHistory.careOfGums || ''} onChange={handleChange} />
+                <label htmlFor="answerOptionsInput17" className="form-label">{t.gumInstr}</label>
+                <input className="form-control" list="answerOptionsDetalist17" id="answerOptionsInput17" name='careOfGums' placeholder={t.option} value={dentalHistory.careOfGums || ''} onChange={handleChange} />
                 <datalist id="answerOptionsDetalist17">
-                  <option value="Yes" />
-                  <option value="No" />
+                  <option value={t.yes} />
+                  <option value={t.no} />
                 </datalist>
               </div>
             </div>
             {/* Comments */}
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="answerOptionsInput17" className="form-label">Comments:</label>
+                <label htmlFor="answerOptionsInput17" className="form-label">{t.comments}</label>
                 <textarea
                   className="form-control"
                   id="answerOptionsInput17"
                   name='dentalComments'
-                  placeholder="Write here any comments"
+                  placeholder={t.writeComments}
                   style={{ minHeight: '100px', fontSize: '16px' }}
                   value={dentalHistory.dentalComments || ''}
                   onChange={handleChange}
@@ -1835,9 +1877,10 @@ export default function MyForm() {
               <div className="col">
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
-                    By signing this document, I acknowledge that <b>I have read (or had the opportunity to read) this office's <Link href="/privacy-policy" target="_blank" className="text-blue-600 underline">
-                      Notice of Privacy Practices
-                    </Link></b>. I understand that a copy of this policy is available to me upon request.</li>
+                    {t.iHaveRead}
+                    <b><Link href="/privacy-policy" target="_blank" className="text-decoration-none">{t.noticePrivacy}</Link></b> 
+                    {t.copy}
+                    </li>
                   <li className="list-group-item">
                     By signing this document, I authorize the clinical staff to perform x-rays, study models, photographs, or any other diagnostic procedures deemed necessary to reach a thorough diagnosis and develop a treatment plan for my dental needs.</li>
                   <li className="list-group-item">
