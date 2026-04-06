@@ -165,17 +165,20 @@ const content = {
     no: "No",
 
     // Legal & Buttons
-    iHaveRead: "By signing this document, I acknowledge that I have read ", 
-    noticePrivacy:"the Notice of Privacy Practices. ", 
-    copy:"I understand that a copy of this policy is available to me upon request.",
+    iHaveRead: "By signing this document, I acknowledge that I have read ",
+    noticePrivacy: "the Notice of Privacy Practices. ",
+    copy: "I understand that a copy of this policy is available to me upon request.",
 
-    authStaff: "By signing this document, I authorize the clinical staff to perform x-rays, study models, photographs, or any other diagnostic procedures.",
-    cancelPolicy: "By signing this document, I understand that I must cancel an appointment at least 24 hours previous, otherwise, I will have to pay a fee of $50.00.",
-    respCost: "By signing this document, I agree to be responsible for the full cost of all dental services provided.",
-    certifyInfo: "By signing this document, I certify that I have read and understand this form and that the information given is accurate.",
-    signature: "Signature",
+    authStaff: "By signing this document, I authorize the clinical staff to perform x-rays, study models, photographs, or any other diagnostic procedures deemed necessary to reach a thorough diagnosis and develop a treatment plan for my dental needs.",
+    bySigningThisDoc: "By signing this document, ",
+    cancelPolicy: "I understand that I must cancel an appointment at least 24 hours previous, otherwise, I will have to pay a cancelation fee of $50.00.",
+    respCost: "By signing this document, I agree to be responsible for the full cost of all dental services provided. If I have insurance, I authorize this office to submit claims on my behalf,",
+    totalObligation: "but I acknowledge that any remaining balance not paid by the insurance is my total obligation.",
+    certifyInfo: "By signing this document, I certify that I have read and understand this form and the information given is accurate.",
+    notHold: "I will not hold my dentist, or any other member of the staff, responsible for any action they take or do not take because or errors or omissions that I have made in the completion of this form.",
+    signature: "Signature:",
     clearSig: "Clear Signature",
-    generateBtn: "Generate Signed PDF",
+    send: "Send Signed PDF",
     clearForm: "Clear Form",
     toggleBtn: "Español"
   },
@@ -298,7 +301,7 @@ const content = {
     pregnant: "¿Está embarazada?",
     nursing: "¿Está amamantando?",
     nOfPregnancies: "Número de embarazos",
-    nOfLivingChildren: "Número de hijos vivos", 
+    nOfLivingChildren: "Número de hijos vivos",
     birthControlMedication: "¿Está tomando anticonceptivos?",
     becomingPregnant: "¿Está planeando quedar embarazada?",
     // Dental History Section
@@ -330,16 +333,19 @@ const content = {
 
     // Legal & Buttons
     iHaveRead: "Al firmar este documento, reconozco que he leído ",
-    noticePrivacy:"el Aviso de Prácticas de Privacidad. ",
-    copy:"Entiendo que hay una copia disponible a mi solicitud.",
+    noticePrivacy: "el Aviso de Prácticas de Privacidad. ",
+    copy: "Y entiendo que podria adquirir una copia si la solicito.",
 
-    authStaff: "Al firmar este documento, autorizo al personal clínico a realizar radiografías, modelos de estudio, fotografías o cualquier otro procedimiento diagnóstico.",
-    cancelPolicy: "Al firmar este documento, entiendo que debo cancelar citas con 24 horas de antelación, de lo contrario, pagaré una multa de $50.00.",
-    respCost: "Al firmar este documento, acepto ser responsable del costo total de todos los servicios dentales prestados.",
-    certifyInfo: "Al firmar este documento, certifico que he leído y entiendo este formulario y que la información proporcionada es exacta.",
-    signature: "Firma",
+    authStaff: "Al firmar este documento, autorizo al personal clínico a realizar radiografías, modelos de estudio, fotografías o cualquier otro procedimiento diagnóstico que se considere necesario para establecer mi tratamiento dental.",
+    bySigningThisDoc: "Al firmar este documento, ",
+    cancelPolicy: "entiendo que debo cancelar las citas al menos con 24 horas de anticipación, de lo contrario, tendré que pagar una multa de $50.00.",
+    respCost: "Al firmar, me hago responsable del pago total de los servicios dentales. En caso de tener aseguranza, autorizo a esta oficina a tramitar mis reclamos de seguro; sin embargo,",
+    totalObligation: " reconozco que soy totalmente responsable de cualquier saldo que el seguro no cubra.",
+    certifyInfo: "Al firmar este documento, certifico que he leído y entiendo este formulario y que la información proporcionada es exacta. ",
+    notHold: "No responsabilizaré a mi dentista, ni a ningún otro miembro del personal, por cualquier acción que tomen o no tomen debido a errores u omisiones que haya cometido al completar este formulario.",
+    signature: "Firma:",
     clearSig: "Borrar Firma",
-    generateBtn: "Generar PDF Firmado",
+    send: "Enviar PDF Firmado",
     clearForm: "Limpiar Formulario",
     toggleBtn: "English"
   }
@@ -773,8 +779,9 @@ export default function MyForm() {
               </Link>
             </div>
           </nav>
-          <div>
-            <button type="button" onClick={handleLanguageToggle} className="btn btn-secondary">
+          <br />
+          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" onClick={handleLanguageToggle} className="btn btn-outline-primary btn-lg">
               {t.langButton}
             </button>
           </div>
@@ -1876,34 +1883,28 @@ export default function MyForm() {
             <div className="row mb-3">
               <div className="col">
                 <ul className="list-group list-group-flush">
-                  <li className="list-group-item">
-                    {t.iHaveRead}
-                    <b><Link href="/privacy-policy" target="_blank" className="text-decoration-none">{t.noticePrivacy}</Link></b> 
-                    {t.copy}
-                    </li>
-                  <li className="list-group-item">
-                    By signing this document, I authorize the clinical staff to perform x-rays, study models, photographs, or any other diagnostic procedures deemed necessary to reach a thorough diagnosis and develop a treatment plan for my dental needs.</li>
-                  <li className="list-group-item">
-                    By signing this document, I understand that <b>I must cancel an appointment at least 24 hours  previous, otherwise, I will have to pay a fee of $ 50.00</b></li>
-                  <li className="list-group-item">
-                    By signing this document, I agree to be responsible for the full cost of all dental services provided. If I have insurance, I authorize this office to submit claims on my behalf, but I acknowledge that any remaining balance not paid by insurance is my personal obligation.</li>
-                  <li className="list-group-item">
-                    <b>By signing this document, I certify that I have read and understand this form and that the information given is accurate</b>. I will not hold my dentist, or any other member of the staff, responsible for any action they take or do not take bacuase or errors or omissions that I have made in the completion of this form.
-                  </li>
+                  <li className="list-group-item">{t.iHaveRead}<b><Link href="/privacy-policy" target="_blank" className="text-decoration-none">{t.noticePrivacy}</Link></b>{t.copy}</li>
+                  <li className="list-group-item">{t.authStaff}</li>
+                  <li className="list-group-item">{t.bySigningThisDoc} <b>{t.cancelPolicy}</b></li>
+                  <li className="list-group-item">{t.respCost} <b>{t.totalObligation}</b></li>
+                  <li className="list-group-item"><b>{t.certifyInfo}</b>{t.notHold}</li>
                 </ul>
               </div>
             </div>
 
             <div className="row mb-3">
-              <SignatureForm onSignatureChange={(dataUrl) => setSignatureImage(dataUrl)} />
+              <label className="form-label fs-4"><b>{t.signature}</b></label>
+              <SignatureForm
+                onSignatureChange={(dataUrl) => setSignatureImage(dataUrl)}
+                clearLabel={t.clearSig} />
               <br />
               <div className="mt-4">
                 <Button variant="primary" type="submit" className="me-2">
-                  Generate Signed PDF
+                  {t.send}
                 </Button>
 
                 <Button variant="secondary" type="button" onClick={handleClear}>
-                  Clear Form
+                  {t.clearForm}
                 </Button>
               </div>
             </div>
