@@ -23,14 +23,17 @@ const content = {
     // Patient Info Section
     personalInfo: "PERSONAL INFORMATION",
     firstName: "First Name",
+    name: "Name",
     lastName: "Last Name",
     dob: "Date of Birth",
     nss: "SSN",
+    address: "Address",
     street: "Street Number",
     unit: "Unit/Suite",
     city: "City",
     state: "State",
     zipCode: "Zip Code",
+    phones: "Phone Numbers",
     homePhone: "Home Phone",
     cellPhone: "Cell Phone",
     workPhone: "Work Phone",
@@ -117,6 +120,7 @@ const content = {
     neurologicalDisorders: "Neurological Disorders",
     venerealDisease: "Venereal Disease",
     organTransplant: "Organ Transplant",
+    noMedicalHistory:"No significant medical history reported",
     hospitalizationAccident: "Have you had any other serious illness, hospitalization or accident?",
     ifYesExplain: "If yes, explain",
     otherIllness: "Have you had any other serious illness, hospitalization or accident?",
@@ -190,14 +194,17 @@ const content = {
     // Patient Info Section
     personalInfo: "INFORMACIÓN PERSONAL",
     firstName: "Nombre",
+    name: "Nombre",
     lastName: "Apellido",
     dob: "Fecha de Nacimiento",
     nss: "Número de Seguro Social",
+    address: "Dirección",
     street: "Nombre de la Calle",
     unit: "Unidad/Suite",
     city: "Ciudad",
     state: "Estado",
     zipCode: "Código Postal",
+    phones: "Números de Teléfono",
     homePhone: "Teléfono de Casa",
     cellPhone: "Teléfono Celular",
     workPhone: "Teléfono de Trabajo",
@@ -259,17 +266,17 @@ const content = {
     bulimia: "Bulimia",
     hemophilia: "Hemophilia",
     rheumaticHeartDisease: "Enfermedad Cardíaca Reumática",
-    cancer: "Cancer",
+    cancer: "Cáncer",
     hepatitis: "Hepatitis",
     sickleCellDisease: "Anemia Falciforme",
     chemicalDependency: "Dependencia Química",
-    hivAids: "HIV/AIDS",
+    hivAids: "HIV/SIDA",
     sinusTrouble: "Sinusitis",
     chemotherapy: "Quimioterapia",
     kidneyProblems: "Problemas Renales",
     stroke: "Derrame Cerebral",
     chestPain: "Dolor en el Pecho",
-    learningDisability: "Discapacidad de Aprendizaje",
+    learningDisability: "Problemas de Aprendizaje",
     thyroidDisease: "Problemas de Tiroides",
     congenitalHeartDisease: "Enfermedades del Corazon Congénitas",
     liverDisease: "Enfermedad del Hígado",
@@ -284,6 +291,7 @@ const content = {
     neurologicalDisorders: "Trastornos Neurológicos",
     venerealDisease: "Enfermedad Venérea",
     organTransplant: "Transplante de Órganos",
+    noMedicalHistory:"Ningun historial médico reportado",
     hospitalizationAccident: "¿Ha tenido alguna enfermedad seria, o ha sido hospitalizado(a) o ha tenido algun accidente?",
     ifYesExplain: "Si es así, explique",
     tabacco: "¿Actualmente fuma o usa productos de tabaco?",
@@ -310,14 +318,14 @@ const content = {
     dentalProblem: "¿Hay algún problema que lo trajo hoy?",
     gumsBleed: "1. ¿Le sangran las encías al cepillarse o usar hilo dental?",
     tempSensitivity: "2. ¿Siente sensibilidad al frío o al calor?",
-    tasteSensitivity: "3. ¿Siente sensibilidad a lo dulce o agrio?",
+    tasteSensitivity: "3. ¿Siente sensibilidad a lo dulce o salado?",
     toothPain: "4. ¿Siente dolor en alguno de sus dientes?",
     mouthSore: "5. ¿Siente alguna llaga o bulto en o cerca de la boca?",
     jawInjury: "6. ¿Ha tenido alguna lesión en la cabeza, cuello o mandíbula?",
     headaches: "7. ¿Tiene dolores de cabeza frecuentes?",
     grindTeeth: "8. ¿Aprieta o rechina los dientes?",
     biteCheek: "9. ¿Se muerde los labios o las mejillas con frecuencia?",
-    jawClick: "10. ¿Ha sentido chasquidos en la mandíbula?",
+    jawClick: "10. ¿Ha sentido que le truena la mandíbula?",
     facePain: "11. ¿Ha sentido dolor (articulación, oído, lado de la cara)?",
     mouthOpen: "12. ¿Ha tenido dificultad para abrir o cerrar la boca?",
     chewing: "13. ¿Ha tenido dificultad para masticar?",
@@ -519,61 +527,95 @@ export default function MyForm() {
 
     let y = 26;
     // --- 1. PERSONAL INFORMATION ---
-    writeTitle(doc, 80, y + 4, [{ text: "PERSONAL INFORMATION", style: "bold" }]);
+    writeTitle(doc, 80, y + 4, [{ text: t.personalInfo, style: "bold" }]);
     writeInline(doc, 20, y + 12, [
-      { text: "Name: ", style: "bold" }, { text: `${formData.firstName} ${formData.lastName}` },
-      { text: "    DOB: ", style: "bold" }, { text: formatDate(formData.dateOfBirth) },
-      { text: "    Nss: ", style: "bold" }, { text: `${formData.nss}` }
+      { text: t.name + ': ', style: "bold" }, { text: `${formData.firstName} ${formData.lastName} ` },
+      { text: t.dob + ': ', style: "bold" }, { text: formatDate(formData.dateOfBirth) + ' ' },
+      { text: t.nss + ': ', style: "bold" }, { text: `${formData.nss}` }
     ]);
     writeInline(doc, 20, y + 18, [
-      { text: "Address: ", style: "bold" },
+      { text: t.address + ': ', style: "bold" },
       { text: `${formData.address}, ${formData.address2 || ''}, ${formData.city}, ${formData.state}, ${formData.zipCode}` }
     ]);
     writeInline(doc, 20, y + 24, [
-      { text: "Phones: ", style: "bold" },
+      { text: t.phones + ': ', style: "bold" },
       { text: `H: ${formatPhoneNumber(formData.homePhone)} | C: ${formatPhoneNumber(formData.cellPhone)} | W: ${formatPhoneNumber(formData.workPhone)}` }
     ]);
-    writeInline(doc, 20, y + 30, [{ text: "Email: ", style: "bold" }, { text: `${formData.email}` }]);
+    writeInline(doc, 20, y + 30, [{ text: t.email + ': ', style: "bold" }, { text: `${formData.email}` }]);
     writeInline(doc, 20, y + 36, [
-      { text: "Sex: ", style: "bold" }, { text: `${formData.sexAtBirth}  ` },
-      { text: "Gender: ", style: "bold" }, { text: `${formData.gender}` }
+      { text: t.sexAtBirth + ': ', style: "bold" }, { text: `${formData.sexAtBirth}  ` },
+      { text: t.describeGender + ': ', style: "bold" }, { text: `${formData.gender}` }
     ]);
 
     // --- 2. MEDICAL HISTORY ---
-    writeTitle(doc, 80, y + 42, [{ text: "MEDICAL HISTORY", style: "bold" }]);
+    writeTitle(doc, 80, y + 43, [{ text: t.medicalHistory, style: "bold" }]);
     writeInline(doc, 20, y + 48, [
-      { text: "Physician: ", style: "bold" }, { text: `${formData.nameOfPhysician}  ` },
-      { text: "Phone: ", style: "bold" }, { text: formatPhoneNumber(formData.physicianPhone) }
+      { text: t.physicianName + ": ", style: "bold" }, { text: `${formData.nameOfPhysician}  ` },
+      { text: t.physicianPhone + ": ", style: "bold" }, { text: formatPhoneNumber(formData.physicianPhone) }
     ]);
-    writeInline(doc, 20, y + 54, [{ text: "Under care of: ", style: "bold" }, { text: medicalHistory.underCareofAnything || "N/A" }]);
-    writeInline(doc, 20, y + 60, [{ text: "Medication: ", style: "bold" }, { text: medicalHistory.takingMedication || "None" }]);
+    writeInline(doc, 20, y + 54, [{ text: t.underCare + ": ", style: "bold" }, { text: medicalHistory.underCareofAnything || "N/A" }]);
+    writeInline(doc, 20, y + 60, [{ text: t.medication + ": ", style: "bold" }, { text: medicalHistory.takingMedication || "None" }]);
     writeInline(doc, 20, y + 66, [
-      { text: "Allergies: ", style: "bold" }, { text: `${medicalHistory.haveAllergies}  ` },
-      { text: "Latex Allergy: ", style: "bold" }, { text: medicalHistory.allergicToLatex ? "Yes" : "No" }
+      { text: t.allergies + ": ", style: "bold" }, { text: `${medicalHistory.haveAllergies}  ` },
+      { text: t.latex + ": ", style: "bold" }, { text: medicalHistory.allergicToLatex ? t.yes : t.no }
     ]);
 
 
-    writeInline(doc, 70, y + 73, [{ text: "Have or had any of the following:", style: "bold" }]);
+    writeInline(doc, 70, y + 73, [{ text: t.haveOrhad, style: "bold" }]);
     // Medical Conditions Table
     const medicalHistorySchema = [
-      { label: "Abnormal Blood Pressure", key: "bloodPressure" }, { label: "Epilepsy", key: "epilepsy" }, { label: "Osteoporosis", key: "osteoporosis" },
-      { label: "Alcohol Addiction", key: "alcoholAddiction" }, { label: "Fainting Spells", key: "faintingSpells" }, { label: "Prolonged Bleeding", key: "prolongedBleeding" },
-      { label: "Anemia", key: "anemia" }, { label: "Fever Blisters", key: "feverBlisters" }, { label: "Prosthetic Implants", key: "prostheticImplants" },
-      { label: "Anorexia", key: "anorexia" }, { label: "Glaucoma", key: "glaucoma" }, { label: "Psychiatric Care", key: "psychiatricCare" },
-      { label: "Arthritis", key: "arthritisRheumatism" }, { label: "Hearing Impaired", key: "hearingImpaired" }, { label: "Radiation Therapy", key: "radiationTherapy" },
-      { label: "Heart Valve", key: "artificialHeartValve" }, { label: "Heart Surgery", key: "heartDiseaseSurgery" }, { label: "Recreational Drugs", key: "recreationalDrugUse" },
-      { label: "Artificial Joint", key: "artificialJoint" }, { label: "Heart Murmur", key: "heartMurmur" }, { label: "Spleen Removal", key: "removalofSpleen" },
-      { label: "Asthma", key: "asthma" }, { label: "Pacemaker", key: "heartPacemaker" }, { label: "Rheumatic Fever", key: "rheumaticFever" },
-      { label: "Bulimia", key: "bulimia" }, { label: "Hemophilia", key: "hemophilia" }, { label: "Rheumatic Heart Disease", key: "rheumaticHeartDisease" },
-      { label: "Cancer", key: "cancer" }, { label: "Hepatitis", key: "hepatitis" }, { label: "Sickle Cell", key: "sickleCellDisease" },
-      { label: "Chemical Dependency", key: "chemicalDependency" }, { label: "HIV/AIDS", key: "hivAids" }, { label: "Sinus Trouble", key: "sinusTrouble" },
-      { label: "Chemotherapy", key: "chemotherapy" }, { label: "Kidney Problems", key: "kidneyProblems" }, { label: "Stroke", key: "stroke" },
-      { lable: "Chest Paint", key: "chestPain" }, { lable: "Learning Disability", key: "lerningDisability" }, { label: "Thyroid Disease", key: "thyroidDisease" },
-      { label: "Congenital Heart Disease", key: "congenitalHeartDisease" }, { label: "Liver Disease", key: "liverDisease" }, { label: "Tuberculosis", key: "tuberculosis" },
-      { label: "Cortisone Medicine", key: "cortisoneMedicine" }, { label: "Lung Disease", key: "lungDisease" }, { label: "Tumors", key: "tumors" },
-      { label: "Diabetes", key: "diabetes" }, { label: "Miltra Valve Prolapse", key: "miltraValveProlapse" }, { label: "Ulcers", key: "ulcers" },
-      { label: "Emphysema", key: "emphysema" }, { label: "Neurological Disorders", key: "neurologicalDisorders" }, { label: "Venereal Disease", key: "venerealDisease" },
-      { label: "Organ Transplant", key: "organTransplant" }
+      { label: t.bloodPressure, key: "bloodPressure" },
+      { label: t.epilepsy, key: "epilepsy" },
+      { label: t.osteoporosis, key: "osteoporosis" },
+      { label: t.alcoholAddiction, key: "alcoholAddiction" },
+      { label: t.faintingSpells, key: "faintingSpells" },
+      { label: t.prolongedBleeding, key: "prolongedBleeding" },
+      { label: t.anemia, key: "anemia" },
+      { label: t.feverBlisters, key: "feverBlisters" },
+      { label: t.prostheticImplants, key: "prostheticImplants" },
+      { label: t.anorexia, key: "anorexia" },
+      { label: t.glaucoma, key: "glaucoma" },
+      { label: t.psychiatricCare, key: "psychiatricCare" },
+      { label: t.arthritisRheumatism, key: "arthritisRheumatism" },
+      { label: t.hearingImpaired, key: "hearingImpaired" },
+      { label: t.radiationTherapy, key: "radiationTherapy" },
+      { label: t.artificialHeartValve, key: "artificialHeartValve" },
+      { label: t.heartDiseaseSurgery, key: "heartDiseaseSurgery" },
+      { label: t.recreationalDrugUse, key: "recreationalDrugUse" },
+      { label: t.artificialJoint, key: "artificialJoint" },
+      { label: t.heartMurmur, key: "heartMurmur" },
+      { label: t.removalofSpleen, key: "removalofSpleen" },
+      { label: t.asthma, key: "asthma" },
+      { label: t.heartPacemaker, key: "heartPacemaker" },
+      { label: t.rheumaticFever, key: "rheumaticFever" },
+      { label: t.bulimia, key: "bulimia" },
+      { label: t.hemophilia, key: "hemophilia" },
+      { label: t.rheumaticHeartDisease, key: "rheumaticHeartDisease" },
+      { label: t.cancer, key: "cancer" },
+      { label: t.hepatitis, key: "hepatitis" },
+      { label: t.sickleCellDisease, key: "sickleCellDisease" },
+      { label: t.chemicalDependency, key: "chemicalDependency" },
+      { label: t.hivAids, key: "hivAids" },
+      { label: t.sinusTrouble, key: "sinusTrouble" },
+      { label: t.chemotherapy, key: "chemotherapy" },
+      { label: t.kidneyProblems, key: "kidneyProblems" },
+      { label: t.stroke, key: "stroke" },
+      { label: t.chestPain, key: "chestPain" },
+      { label: t.learningDisability, key: "learningDisability" },
+      { label: t.thyroidDisease, key: "thyroidDisease" },
+      { label: t.congenitalHeartDisease, key: "congenitalHeartDisease" },
+      { label: t.liverDisease, key: "liverDisease" },
+      { label: t.tuberculosis, key: "tuberculosis" },
+      { label: t.cortisoneMedicine, key: "cortisoneMedicine" },
+      { label: t.lungDisease, key: "lungDisease" },
+      { label: t.tumors, key: "tumors" },
+      { label: t.diabetes, key: "diabetes" },
+      { label: t.mitralValveProlapse, key: "mitralValveProlapse" },
+      { label: t.ulcers, key: "ulcers" },
+      { label: t.emphysema, key: "emphysema" },
+      { label: t.neurologicalDisorders, key: "neurologicalDisorders" },
+      { label: t.venerealDisease, key: "venerealDisease" },
+      { label: t.organTransplant, key: "organTransplant" }
     ];
 
     const activeConditions = medicalHistorySchema.filter(item => medicalHistory[item.key] === true);
@@ -586,7 +628,7 @@ export default function MyForm() {
 
     autoTable(doc, {
       startY: y + 78,
-      body: tableData.length > 0 ? tableData : [["No significant medical history reported"]],
+      body: tableData.length > 0 ? tableData : [[t.noMedicalHistory]],
       theme: 'plain',
       styles: { fontSize: 9 },
       margin: { left: 20 }
@@ -709,9 +751,9 @@ export default function MyForm() {
     });
 
 
-    // --- 5. DISCLOSURES & LEGAL ---
-    // Calculate space needed. We check if we are too low on the page.
-    //if (finalY > 270) { doc.addPage(); finalY = 20; } {
+    //--- 5. DISCLOSURES & LEGAL ---
+    //Calculate space needed. We check if we are too low on the page.
+    // if (finalY > 270) { doc.addPage(); finalY = 20; } {
     //doc.addPage();
     //finalY += 6;
     //}
@@ -739,19 +781,19 @@ export default function MyForm() {
     // --- 5. SIGNATURE ---
 
 
-    finalY += 5;
+    finalY += 12;
     if (finalY > 270) { doc.addPage(); finalY = 20; }
 
     doc.setFont("helvetica", "bold");
-    doc.text(`Date Signed: ${dateString}`, 20, finalY);
+    doc.text(`Date Signed: ${dateString}`, 20, finalY + 10);
 
     if (signatureImage) {
       // Draw a line for the signature
-      doc.addImage(signatureImage, 'PNG', 20, finalY + 6, 50, 20);
+      doc.addImage(signatureImage, 'PNG', 20, finalY + 12, 50, 20);
       doc.line(20, finalY + 28, 100, finalY + 28);
       doc.setFontSize(8);
-      doc.text("Patient or Guardian Signature", 20, finalY + 32);
-      doc.text(`Patient: ${formData.firstName} ${formData.lastName}`, 20, finalY + 38);
+      doc.text("Patient or Guardian Signature", 20, finalY + 35);
+      doc.text(`Patient: ${formData.firstName} ${formData.lastName}`, 20, finalY + 40);
     }
 
 
@@ -940,8 +982,8 @@ export default function MyForm() {
                     type="radio"
                     name="sexAtBirth"
                     id="sexMale"
-                    value="Male"
-                    checked={formData.sexAtBirth === "Male"}
+                    value={t.male}
+                    checked={formData.sexAtBirth === t.male}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="inlineCheckbox1">{t.male}</label>
@@ -953,8 +995,8 @@ export default function MyForm() {
                     type="radio"
                     name='sexAtBirth'
                     id="sexFemale"
-                    value="Female"
-                    checked={formData.sexAtBirth === "Female"}
+                    value={t.female}
+                    checked={formData.sexAtBirth === t.female}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="inlineCheckbox2">{t.female}</label>
@@ -972,8 +1014,8 @@ export default function MyForm() {
                     type="radio"
                     name='gender'
                     id="genderMan"
-                    value="Man"
-                    checked={formData.gender === "Man"}
+                    value={t.man}
+                    checked={formData.gender === t.man}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="inlineCheckbox1">{t.man}</label>
@@ -984,8 +1026,8 @@ export default function MyForm() {
                     type="radio"
                     name='gender'
                     id="genderWoman"
-                    value="Woman"
-                    checked={formData.gender === "Woman"}
+                    value={t.woman}
+                    checked={formData.gender === t.woman}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="inlineCheckbox2">{t.woman}</label>
@@ -996,8 +1038,8 @@ export default function MyForm() {
                     type="radio"
                     name='gender'
                     id="Transgeneder"
-                    value="Tansgender"
-                    checked={formData.gender === "Tansgender"}
+                    value={t.transgender}
+                    checked={formData.gender === t.transgender}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="inlineCheckbox2">{t.transgender}</label>
