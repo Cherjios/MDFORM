@@ -120,10 +120,12 @@ const content = {
     neurologicalDisorders: "Neurological Disorders",
     venerealDisease: "Venereal Disease",
     organTransplant: "Organ Transplant",
-    noMedicalHistory:"No significant medical history reported",
+    noMedicalHistory: "No significant medical history reported",
     hospitalizationAccident: "Have you had any other serious illness, hospitalization or accident?",
     ifYesExplain: "If yes, explain",
     otherIllness: "Have you had any other serious illness, hospitalization or accident?",
+    smokeTabacco: "Smooke/Tabacco",
+    alcoholText: "Alcohol",
     tabacco: "Do you currently smoke or use any tobacco products?",
     option: "Select an option",
     iDontSmooke: "I do not smoke",
@@ -291,9 +293,11 @@ const content = {
     neurologicalDisorders: "Trastornos Neurológicos",
     venerealDisease: "Enfermedad Venérea",
     organTransplant: "Transplante de Órganos",
-    noMedicalHistory:"Ningun historial médico reportado",
+    noMedicalHistory: "Ningun historial médico reportado",
     hospitalizationAccident: "¿Ha tenido alguna enfermedad seria, o ha sido hospitalizado(a) o ha tenido algun accidente?",
     ifYesExplain: "Si es así, explique",
+    smokeTabacco: "Fumar/Tabacco",
+    alcoholText: "Alcohol",
     tabacco: "¿Actualmente fuma o usa productos de tabaco?",
     option: "Seleccione una opción",
     iDontSmooke: "No fumo",
@@ -637,7 +641,7 @@ export default function MyForm() {
     let finalY = doc.lastAutoTable.finalY + 6;
 
     // Hospitalization/Accidents
-    writeInline(doc, 20, finalY, [{ text: "Serious illness, hospitalizations, or accidents: ", style: "bold" }]);
+    writeInline(doc, 20, finalY, [{ text: t.hospitalizationAccident, style: "bold" }]);
     autoTable(doc, {
       startY: finalY + 1,
       body: [[medicalHistory.hospitalizationAccident || "None reported."]],
@@ -650,8 +654,8 @@ export default function MyForm() {
 
     // Lifestyle Summary
     writeInline(doc, 20, finalY, [
-      { text: "Smoke/Tobacco: ", style: "bold" }, { text: `${medicalHistory.smokeTabaccoProducts || 'No'} | ` },
-      { text: "Alcohol: ", style: "bold" }, { text: `${medicalHistory.drinkAlcohol || 'No'}` }
+      { text: t.smokeTabacco + ": ", style: "bold" }, { text: `${medicalHistory.smokeTabaccoProducts || 'No'} | ` },
+      { text: t.alcoholText + ": ", style: "bold" }, { text: `${medicalHistory.drinkAlcohol || 'No'}` }
     ]);
 
     finalY += 10;
