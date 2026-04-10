@@ -138,9 +138,14 @@ const content = {
     //only Women
     onlyWomen: "ONLY FOR WOMEN",
     pregnant: "Are you pregnant?",
+    pregnant2: "Pregnant",
     nursing: "Are you nursing?",
+    nurging2: "Nursing",
+    birthControl: "Birth Control",
     nOfPregnancies: "Number of pregnancies",
+    pregnancies: "Pregnancies",
     nOfLivingChildren: "Number of living children",
+    children: "Children",
     birthControlMedication: "Are you taking birth control medication?",
     becomingPregnant: "Are you planning to become pregnant?",
 
@@ -148,23 +153,41 @@ const content = {
     dentalHistory: "DENTAL HISTORY",
     lastDentalVisit: "Date of last dental visit",
     dentalProblem: "Is there a problem that brought you today?",
+    dentalProblem2: "Dental Problem",
     gumsBleed: "1. Do your gums bleed when you brush or floss?",
+    gumsBleed2: "1.Gums Bleed?",
     tempSensitivity: "2. Do you experience tooth sensitivity to hot or cold?",
+    hotColdSensitivity: "2. Hot/Cold Sensitivity?",
     tasteSensitivity: "3. Do you experience tooth sensitivity to sweet or sour?",
+    sweetSourSensitivity: "3. Sweet/Sour Sensitivity?",
     toothPain: "4. Do you feel pain in any of your teeth?",
+    toothPain2: "4. Tooth Pain?",
     mouthSore: "5. Do you feel any sore or lump in or near your mouth?",
+    soresLumps: "5. Sores/Lumps in mouth?",
     jawInjury: "6. Have you ever had any head, neck or jaw injury?",
+    neckJawInjuries: "6. Neck/Jaw injuries?",
     headaches: "7. Do you have frequent headaches?",
+    frequentHeadaches: "7. Frequent headaches?",
     grindTeeth: "8. Do you clench or grind your teeth?",
+    clenchGrindTeeth: "8. Clench/Grind teeth?",
     biteCheek: "9. Do you bite your lips or cheeks frequently?",
+    biteCheeksLips: "9. Bite cheeks/lips?",
     jawClick: "10. Have you ever experienced clicking of your jaw?",
+    clickingJaw: "10. Clicking jaw?",
     facePain: "11. Have you ever experienced pain (joint, ear, side of face)?",
+    faceEarjointPain: "11. Face/Ear joint pain?",
     mouthOpen: "12. Have you ever experienced difficulty opening or closing?",
+    difficultyOpeningMouth: "12. Difficulty opening mouth?",
     chewing: "13. Have you ever experienced difficulty in chewing?",
+    difficultyChewing: "13. Difficulty chewing?",
     ortho: "14. Have you had any orthodontic treatment (braces)?",
+    braces: "14. Braces?",
     extractionBleed: "15. Have you had prolonged bleeding after an extraction?",
+    prolongBleeding2: "15. Prolonged bleeding?",
     brushingInstr: "16. Have you had instructions on the correct method of brushing?",
+    brushingInstructions: "16. Brushing instructions?",
     gumInstr: "17. Have you had instructions on the care of your gums?",
+
     comments: "Comments",
     writeComments: "Write here any comments",
     yes: "Yes",
@@ -311,31 +334,54 @@ const content = {
     //only Women
     onlyWomen: "SOLO PARA MUJERES",
     pregnant: "¿Está embarazada?",
+    pregnant2: "Embarazada",
     nursing: "¿Está amamantando?",
+    nurging2: "Amamantando",
+    birthControl: "Anticonceptivos",
     nOfPregnancies: "Número de embarazos",
+    pregnancies: "Embarazos",
     nOfLivingChildren: "Número de hijos vivos",
+    children: "Hijos",
     birthControlMedication: "¿Está tomando anticonceptivos?",
     becomingPregnant: "¿Está planeando quedar embarazada?",
     // Dental History Section
     dentalHistory: "HISTORIAL DENTAL",
     lastDentalVisit: "Fecha de la última visita dental",
     dentalProblem: "¿Hay algún problema que lo trajo hoy?",
+    dentalProblem2: "Problema Dental",
     gumsBleed: "1. ¿Le sangran las encías al cepillarse o usar hilo dental?",
+    gumsBleed2: "1.¿Sangrado de Encías?",
     tempSensitivity: "2. ¿Siente sensibilidad al frío o al calor?",
+    hotColdSensitivity: "2. ¿Sensibilidad caliente/frio?",
     tasteSensitivity: "3. ¿Siente sensibilidad a lo dulce o salado?",
+    sweetSourSensitivity: "3.¿Sensibilidad dulce/salado?",
     toothPain: "4. ¿Siente dolor en alguno de sus dientes?",
+    toothPain2: "4. ¿Dolor de Dientes?",
     mouthSore: "5. ¿Siente alguna llaga o bulto en o cerca de la boca?",
+    soresLumps: "5. ¿Dolor/Bultos en la Boca?",
     jawInjury: "6. ¿Ha tenido alguna lesión en la cabeza, cuello o mandíbula?",
+    neckJawInjuries: "6. ¿Lesiones en Cuello/Mandibula?",
     headaches: "7. ¿Tiene dolores de cabeza frecuentes?",
+    frequentHeadaches: "7. ¿Dolores de Cabeza Frecuentes?",
     grindTeeth: "8. ¿Aprieta o rechina los dientes?",
+    clrendchGrindTeeth: "8. ¿Aprieta/Rechina los Dientes?",
+    clenchGrindTeeth: "8. ¿Aprieta/Rechina los Dientes?",
     biteCheek: "9. ¿Se muerde los labios o las mejillas con frecuencia?",
+    biteCheeksLips: "9.¿Se Muerde labios/mejillas?",
     jawClick: "10. ¿Ha sentido que le truena la mandíbula?",
+    clickingJaw: "10. ¿Truena la mandíbula?",
     facePain: "11. ¿Ha sentido dolor (articulación, oído, lado de la cara)?",
+    faceEarjointPain: "11. ¿Dolor en Articulación Oído/Cara?",
     mouthOpen: "12. ¿Ha tenido dificultad para abrir o cerrar la boca?",
+    difficultyOpeningMouth: "12. ¿Dificultad para abrir la boca?",
     chewing: "13. ¿Ha tenido dificultad para masticar?",
+    difficultyChewing: "13. ¿Dificultad para masticar?",
     ortho: "14. ¿Ha tenido tratamiento de ortodoncia (brackets)?",
+    braces: "14. ¿Brackets?",
     extractionBleed: "15. ¿Ha tenido sangrado prolongado tras una extracción?",
+    prolongBleeding2: "15. ¿Sangrado Prolongado?",
     brushingInstr: "16. ¿Ha recibido instrucciones sobre el cepillado correcto?",
+    brushingInstructions: "16. ¿Instrucciones de cepillado?",
     gumInstr: "17. ¿Ha recibido instrucciones sobre el cuidado de encías?",
     comments: "Comentarios",
     writeComments: "Escriba sus comentarios aquí",
@@ -661,15 +707,15 @@ export default function MyForm() {
     finalY += 10;
 
     // --- 3. WOMEN'S SECTION (CONDITIONAL) ---
-    if (formData.sexAtBirth === "Female") {
-      writeTitle(doc, 80, finalY, [{ text: "***Only Women***", style: "bold" }]);
+    if (formData.sexAtBirth === t.female) {
+      writeTitle(doc, 80, finalY, [{ text: t.onlyWomen, style: "bold" }]);
       finalY += 6;
       writeInline(doc, 20, finalY, [
-        { text: "Pregnant: ", style: "bold" }, { text: `${medicalHistory.pregnant ? "Yes" : "No"} | ` },
-        { text: "Nursing: ", style: "bold" }, { text: `${medicalHistory.nursing ? "Yes" : "No"} | ` },
-        { text: "Birth Control: ", style: "bold" }, { text: `${medicalHistory.birthControlMedication ? "Yes" : "No"} | ` },
-        { text: "Pregnancies: ", style: "bold" }, { text: `${medicalHistory.nOfPregnancies} | ` },
-        { text: "Children: ", style: "bold" }, { text: `${medicalHistory.nOfLivingChildren}` }
+        { text: t.pregnant2 + ": ", style: "bold" }, { text: `${medicalHistory.pregnant ? t.yes : t.no} | ` },
+        { text: t.nurging2 + ": ", style: "bold" }, { text: `${medicalHistory.nursing ? t.yes : t.no} | ` },
+        { text: t.birthControl + ": ", style: "bold" }, { text: `${medicalHistory.birthControlMedication ? "Yes" : "No"} | ` },
+        { text: t.pregnancies + ": ", style: "bold" }, { text: `${medicalHistory.nOfPregnancies} | ` },
+        { text: t.children + ": ", style: "bold" }, { text: `${medicalHistory.nOfLivingChildren}` }
       ]);
       finalY += 10;
     }
@@ -678,28 +724,28 @@ export default function MyForm() {
     // Page check
     if (finalY > 270) { doc.addPage(); finalY = 20; }
 
-    writeTitle(doc, 80, finalY, [{ text: "DENTAL HISTORY", style: "bold" }]);
+    writeTitle(doc, 80, finalY, [{ text: t.dentalHistory, style: "bold" }]);
     finalY += 8;
     // Printing dental history as a list instead of a table for better formatting. We will add a table for comments at the end.
     const dentalQuestions = [
-      { label: "Last Visit", val: formatDate(dentalHistory.dateLastDentalVisit) },
-      { label: "Reason", val: dentalHistory.problemBroughtYouIn },
-      { label: "1. Gums bleed?", val: dentalHistory.gumsBleed },
-      { label: "2. Hot/Cold sensitivity?", val: dentalHistory.teethSensitiveToHotCold },
-      { label: "3. Sweet/Sour sensitivity?", val: dentalHistory.teethSensitiveToSweets },
-      { label: "4. Tooth pain?", val: dentalHistory.painTeeth },
-      { label: "5. Sores/Lumps in mouth?", val: dentalHistory.haveSoreOrLumpsInMouth },
-      { label: "6. Neck/Jaw injuries?", val: dentalHistory.neckJawInjuries },
-      { label: "7. Frequent headaches?", val: dentalHistory.headaches },
-      { label: "8. Clench/Grind teeth?", val: dentalHistory.grindTeeth },
-      { label: "9. Bite cheeks/lips?", val: dentalHistory.biteCheeksLips },
-      { label: "10. Clicking jaw?", val: dentalHistory.expereiencedClickingJaw },
-      { label: "11. Face/Ear joint pain?", val: dentalHistory.faceEarjointPain },
-      { label: "12. Difficulty opening mouth?", val: dentalHistory.difficultyOpeningMouth },
-      { label: "13. Difficulty chewing?", val: dentalHistory.difficultyChewing },
-      { label: "14. Braces?", val: dentalHistory.orthodontic },
-      { label: "15. Prolonged bleeding?", val: dentalHistory.dentalProlongedBleeding },
-      { label: "16. Brushing instructions?", val: dentalHistory.instructioinsOfBrushing },
+      { label: t.lastDentalVisit, val: formatDate(dentalHistory.dateLastDentalVisit) },
+      { label: t.dentalProblem2, val: dentalHistory.problemBroughtYouIn },
+      { label: t.gumsBleed2, val: dentalHistory.gumsBleed },
+      { label: t.hotColdSensitivity, val: dentalHistory.teethSensitiveToHotCold },
+      { label: t.sweetSourSensitivity, val: dentalHistory.teethSensitiveToSweets },
+      { label: t.toothPain2, val: dentalHistory.painTeeth },
+      { label: t.soresLumps, val: dentalHistory.haveSoreOrLumpsInMouth },
+      { label: t.neckJawInjuries, val: dentalHistory.neckJawInjuries },
+      { label: t.frequentHeadaches, val: dentalHistory.headaches },
+      { label: t.clenchGrindTeeth, val: dentalHistory.grindTeeth },
+      { label: t.biteCheeksLips, val: dentalHistory.biteCheeksLips },
+      { label: t.clickingJaw, val: dentalHistory.expereiencedClickingJaw },
+      { label: t.faceEarjointPain, val: dentalHistory.faceEarjointPain },
+      { label: t.difficultyOpeningMouth, val: dentalHistory.difficultyOpeningMouth },
+      { label: t.difficultyChewing, val: dentalHistory.difficultyChewing },
+      { label: t.braces, val: dentalHistory.orthodontic },
+      { label: t.prolongBleeding2, val: dentalHistory.dentalProlongedBleeding },
+      { label: t.brushingInstructions, val: dentalHistory.instructioinsOfBrushing },
       { label: "17. Care of gums?", val: dentalHistory.careOfGums },
     ];
 
@@ -1651,7 +1697,7 @@ export default function MyForm() {
                 </datalist>
               </div>
             </div>
-            {formData.sexAtBirth === "Female" && (
+            {formData.sexAtBirth === t.female && (
               <>
                 <div className="row mb-3">
                   <h6 className="text-center">{t.onlyWomen}</h6>
