@@ -196,8 +196,8 @@ const content = {
 
     // Legal & Buttons
     iHaveRead: "By signing this document, I acknowledge that I have read ",
-    noticePrivacy: "the Notice of Privacy Practices. ",
-    copy: "I understand that a copy of this policy is available to me upon request.",
+    noticePrivacy: "the Notice of Privacy Practices ",
+    copy: " I understand that a copy of this policy is available to me upon request.",
 
     authStaff: "By signing this document, I authorize the clinical staff to perform x-rays, study models, photographs, or any other diagnostic procedures deemed necessary to reach a thorough diagnosis and develop a treatment plan for my dental needs.",
 
@@ -2064,7 +2064,14 @@ return (
           <div className="row mb-3">
             <div className="col">
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">{t.iHaveRead}<b><Link href="/privacy-policy" target="_blank" className="text-decoration-none">{t.noticePrivacy}</Link></b>{t.copy}</li>
+                <li className="list-group-item">{t.iHaveRead}<b>{t.noticePrivacy}</b>
+                  (
+                  <Link href="/privacy-policy/en" target="_blank" className="text-decoration-none">English</Link>
+                  |
+                  <Link href="/privacy-policy/es" target="_blank" className="text-decoration-none">Español</Link>
+                  ).  
+                  {t.copy}
+                </li>
                 <li className="list-group-item">{t.authStaff}</li>
                 <li className="list-group-item">{t.bySigningThisDoc} <b>{t.cancelPolicy}</b></li>
                 <li className="list-group-item">{t.respCost} <b>{t.totalObligation}</b></li>
