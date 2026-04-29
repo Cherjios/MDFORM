@@ -7,7 +7,7 @@ import autoTable from 'jspdf-autotable';
 import AbstractModalHeader from 'react-bootstrap/esm/AbstractModalHeader';
 import Link from 'next/link';
 import Image from 'next/image';
-import { write } from 'fs';
+
 
 
 const content = {
@@ -447,11 +447,62 @@ export default function MyForm() {
   });
 
   const [dentalHistory, setDentalHistory] = useState({
-    dateLastDentalVisit: '', problemBroughtYouIn: '', gumsBleed: '', teethSensitiveToHotCold: '', teethSensitiveToSweets: '', painTeeth: '', haveSoreOrLumpsInMouth: '', neckJawInjuries: '', headaches: '', grindTeeth: '', biteCheeksLips: '',
-    expereiencedClickingJaw: '', faceEarjointPain: '', difficultyOpeningMouth: '', difficultyChewing: '', orthodontic: '', dentalProlongedBleeding: '', instructioinsOfBrushing: '', careOfGums: '', dentalComments: ''
+    dateLastDentalVisit: '', problemBroughtYouIn: '', gumsBleed: '', teethSensitiveToHotCold: '', teethSensitiveToSweets: '', painTeeth: '', haveSoreOrLumpsInMouth: '', neckJawInjuries: '',
+    headaches: '', grindTeeth: '', biteCheeksLips: '',
+    expereiencedClickingJaw: '', faceEarjointPain: '', difficultyOpeningMouth: '', difficultyChewing: '', orthodontic: '', dentalProlongedBleeding: '', instructioinsOfBrushing: '',
+    careOfGums: '', dentalComments: ''
   });
 
 
+  //Clears the form data and resets all fields to their default values when the "Clear Form" button is clicked
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  
+  setFormData((prevData) => ({
+    ...prevData, // This keeps the other fields from disappearing
+    [name]: value, // This updates only the field you are typing in
+  }));
+  setMedicalHistory((prevData) => ({
+    ...prevData,
+    [name]: value,  
+  }));
+  setDentalHistory((prevData) => ({
+    ...prevData,
+    [name]: value,  
+  }));
+
+
+};
+  
+  // const handleChange = () => {
+  //   setFormData({
+  //     firstName: '', lastName: '', dateOfBirth: '', nss: '', address: '', address2: '',
+  //     city: '', state: '', zipCode: '', cellPhone: '', homePhone: '', workPhone: '', email: '',
+  //     sexAtBirth: '', gender: '', emergencyContactName: '', emergencyContactRelationship: '', emergencyContactPhone: '',
+  //     nameOfPhysician: '', physicianPhone: '', physicianAddress: '', dateLastExam: ''
+  //   });
+  //   setMedicalHistory({
+  //     underCareofAnything: '', takingMedication: '', haveAllergies: '', allergicToLatex: false, bloodPressure: false,
+  //     epilepsy: false, osteoporosis: false, alcoholAddiction: false, faintingSpells: false, prolongedBleeding: false,
+  //     anemia: false, feverBlisters: false, prostheticImplants: false, anorexia: false, glaucoma: false, psychiatricCare: false,
+  //     arthritisRheumatism: false, hearingImpaired: false, radiationTherapy: false, artificialHeartValve: false, heartDiseaseSurgery: false,
+  //     recreationalDrugUse: false, artificialJoint: false, heartMurmur: false, removalofSpleen: false, asthma: false,
+  //     heartPacemaker: false, rheumaticFever: false, bulimia: false, hemophilia: false, rheumaticHeartDisease: false, cancer: false,
+  //     hepatitis: false, sickleCellDisease: false, chemicalDependency: false, hivAids: false, sinusTrouble: false, chemotherapy: false,
+  //     kidneyProblems: false, stroke: false, chestPain: false, learningDisability: false, thyroidDisease: false, congenitalHeartDisease: false,
+  //     liverDisease: false, tuberculosis: false, cortisoneMedicine: false, lungDisease: false, tumors: false, diabetes: false,
+  //     mitralValveProlapse: false, ulcers: false, emphysema: false, neurologicalDisorders: false, venerealDisease: false, organTransplant: false, hospitalizationAccident: "",
+  //     smokeTabaccoProducts: "", drinkAlcohol: "", pregnant: false, nursing: false, nOfPregnancies: "", nOfLivingChildren: "", birthControlMedication: false, becomingPregnant: false
+  //   });
+  //   setDentalHistory({
+  //     dateLastDentalVisit: '', problemBroughtYouIn: '', gumsBleed: '', teethSensitiveToHotCold: '', teethSensitiveToSweets: '', painTeeth: '', haveSoreOrLumpsInMouth: '', neckJawInjuries: '',
+  //     headaches: '', grindTeeth: '', biteCheeksLips: '',
+  //     expereiencedClickingJaw: '', faceEarjointPain: '', difficultyOpeningMouth: '', difficultyChewing: '', orthodontic: '', dentalProlongedBleeding: '', instructioinsOfBrushing: '',
+  //     careOfGums: '', dentalComments: ''
+  //   });
+  // };
+
+  //Flips the boolean value of the medical and dental history checkboxes when toggled
   const handleToggle = (condition) => {
     setMedicalHistory((prev) => ({
       ...prev,
@@ -462,86 +513,23 @@ export default function MyForm() {
       ...prev,
       [condition]: !prev[condition],
     }));
-
   };
 
 
-  // Function to handle clearing the form
-  const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
-
-    // const { name, value } = e.currentTarget;
-
-    // // Update FormData
-    // if (name in formData) {
-    //   setFormData(prev => ({ ...prev, [name]: value }));
-    // }
-    // // Update Medical History
-    // if (name in medicalHistory) {
-    //   setMedicalHistory(prev => ({ ...prev, [name]: value }));
-    // }
-    // // Update Dental History
-    // if (name in dentalHistory) {
-    //   setDentalHistory(prev => ({ ...prev, [name]: value }));
-    // }
-
-    // Reset text fields
-    setFormData({
-      firstName: '', lastName: '', dateOfBirth: '', nss: '', address: '', address2: '',
-      city: '', state: '', zipCode: '', cellPhone: '', homePhone: '', workPhone: '', email: '',
-      sexAtBirth: '', gender: '', emergencyContactName: '', emergencyContactRelationship: '', emergencyContactPhone: '',
-      nameOfPhysician: '', physicianPhone: '', physicianAddress: '', dateLastExam: ''
-    });
-
-    // // Reset medical history checkboxes
-    setMedicalHistory({
-      underCareofAnything: '', takingMedication: '', haveAllergies: '', allergicToLatex: false, bloodPressure: false,
-      epilepsy: false, osteoporosis: false, alcoholAddiction: false, faintingSpells: false, prolongedBleeding: false,
-      anemia: false, feverBlisters: false, prostheticImplants: false, anorexia: false, glaucoma: false, psychiatricCare: false,
-      arthritisRheumatism: false, hearingImpaired: false, radiationTherapy: false, artificialHeartValve: false, heartDiseaseSurgery: false,
-      recreationalDrugUse: false, artificialJoint: false, heartMurmur: false, removalofSpleen: false, asthma: false,
-      heartPacemaker: false, rheumaticFever: false, bulimia: false, hemophilia: false, rheumaticHeartDisease: false, cancer: false,
-      hepatitis: false, sickleCellDisease: false, chemicalDependency: false, hivAids: false, sinusTrouble: false, chemotherapy: false,
-      kidneyProblems: false, stroke: false, chestPain: false, learningDisability: false, thyroidDisease: false, congenitalHeartDisease: false,
-      liverDisease: false, tuberculosis: false, cortisoneMedicine: false, lungDisease: false, tumors: false, diabetes: false,
-      mitralValveProlapse: false, ulcers: false, emphysema: false, neurologicalDisorders: false, venerealDisease: false, organTransplant: false,
-      hospitalizationAccident: "", smokeTabaccoProducts: "", drinkAlcohol: "", pregnant: false, nursing: false, nOfPregnancies: "", nOfLivingChildren: "", birthControlMedication: false, becomingPregnant: false
-    });
-
-    setDentalHistory({
-      dateLastDentalVisit: '', problemBroughtYouIn: "", gumsBleed: "", teethSensitiveToHotCold: "", teethSensitiveToSweets: "", painTeeth: "", haveSoreOrLumpsInMouth: "", neckJawInjuries: "", headaches: "", grindTeeth: "", biteCheeksLips: "",
-      expereiencedClickingJaw: "", faceEarjointPain: "", difficultyOpeningMouth: "", difficultyChewing: "", orthodontic: "", dentalProlongedBleeding: "", instructioinsOfBrushing: "", careOfGums: "", dentalComments: ""
-    });
-  };
+  const [signatureData, setSignatureData] = useState(null);
 
 
-  const [signatureImage, setSignatureImage] = useState(null);
 
-  // This function is now correctly defined to fix the error on line 100
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    setMedicalHistory(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    setDentalHistory(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const generatePDF = async(logoData:string) => {
+  const generatePDF = async () => {
     const doc = new jsPDF();
+    let logoData = null;
     const today = new Date();
     const dateString = today.toLocaleDateString();
     const margin = 20;
     const pageWidth = 170;
 
     // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
-     // doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
+    // doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
 
     try {
       // 1. Load the image from your public folder
@@ -550,17 +538,24 @@ export default function MyForm() {
 
       // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
       const arrayBuffer = await blob.arrayBuffer();
-      const logoData = new Uint8Array(arrayBuffer);
+      logoData = new Uint8Array(arrayBuffer);
 
       // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
       // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
-      doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
+      //doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
 
 
     } catch (error) {
-      console.error("Logo failed to load, continuing without it", error);
+      console.error("Logo failed to load, continuing without it");
     }
 
+    const addHeader = (pdfDoc) => {
+      if (logoData) pdfDoc.addImage(logoData, 'PNG', 18, 5, 63, 27);
+      pdfDoc.setFontSize(10);
+      pdfDoc.text(`Page ${pdfDoc.internal.getNumberOfPages()}`, 180, 20, { align: 'right' });
+    };
+
+    addHeader(doc);
 
     // --- Helpers ---
     const formatDate = (dateStr) => {
@@ -785,22 +780,22 @@ export default function MyForm() {
       // Check for page overflow
       if (finalY > 275) {
         doc.addPage();
-         try {
-      // 1. Load the image from your public folder
-      const response = await fetch('/logo.png');
-      const blob = await response.blob();
+        try {
+          // 1. Load the image from your public folder
+          const response = await fetch('/logo.png');
+          const blob = await response.blob();
 
-      // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
-      const arrayBuffer = await blob.arrayBuffer();
-      const logoData = new Uint8Array(arrayBuffer);
+          // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
+          const arrayBuffer = await blob.arrayBuffer();
+          const logoData = new Uint8Array(arrayBuffer);
 
-      // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
-      // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
-      doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
+          // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
+          // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
+          doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
 
-    } catch (error) {
-      console.error("Logo failed to load, continuing without it", error);
-    }
+        } catch (error) {
+          console.error("Logo failed to load, continuing without it", error);
+        }
         finalY = 40;
       }
 
@@ -826,25 +821,26 @@ export default function MyForm() {
     }
 
     // Comments Table
-    if (finalY > 270)
-    { doc.addPage();
-     try {
-      // 1. Load the image from your public folder
-      const response = await fetch('/logo.png');
-      const blob = await response.blob();
+    if (finalY > 270) {
+      doc.addPage();
+      try {
+        // 1. Load the image from your public folder
+        const response = await fetch('/logo.png');
+        const blob = await response.blob();
 
-      // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
-      const arrayBuffer = await blob.arrayBuffer();
-      const logoData = new Uint8Array(arrayBuffer);
+        // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
+        const arrayBuffer = await blob.arrayBuffer();
+        const logoData = new Uint8Array(arrayBuffer);
 
-      // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
-      // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
-      doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
+        // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
+        // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
+        doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
 
-    } catch (error) {
-      console.error("Logo failed to load, continuing without it", error);
+      } catch (error) {
+        console.error("Logo failed to load, continuing without it", error);
+      }
+      finalY = 20;
     }
-      finalY = 20; }
     finalY += 6;
     writeInline(doc, 20, finalY, [{ text: t.comments + ":", style: "bold" }]);
 
@@ -862,27 +858,27 @@ export default function MyForm() {
     if (finalY > 200) {
       doc.addPage();
       try {
-      // 1. Load the image from your public folder
-      const response = await fetch('/logo.png');
-      const blob = await response.blob();
+        // 1. Load the image from your public folder
+        const response = await fetch('/logo.png');
+        const blob = await response.blob();
 
-      // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
-      const arrayBuffer = await blob.arrayBuffer();
-      const logoData = new Uint8Array(arrayBuffer);
+        // 2. Convert Blob to a Uint8Array (jsPDF handles this very well)
+        const arrayBuffer = await blob.arrayBuffer();
+        const logoData = new Uint8Array(arrayBuffer);
 
-      // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
-      // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
-      doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
+        // 3. Add to PDF (using 'PNG' or 'JPEG' depending on your file)
+        // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
+        doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
 
-    } catch (error) {
-      console.error("Logo failed to load, continuing without it", error);
-    }
+      } catch (error) {
+        console.error("Logo failed to load, continuing without it", error);
+      }
 
       // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
       //doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
       finalY = 40;
     }
-   
+
 
     const disclosures = [
       t.iHaveRead + t.noticePrivacy + t.copy,
@@ -906,1202 +902,1225 @@ export default function MyForm() {
 
       doc.text(lines, margin, finalY);
       // Move Y down: (number of lines * line height) + paragraph spacing
-    finalY += (lines.length * 5) + 4;
-  });
+      finalY += (lines.length * 5) + 4;
+    });
 
-  // --- 5. SIGNATURE ---
-  if (finalY > 240) { doc.addPage(); finalY = 20; }
+    // --- 5. SIGNATURE ---
+    if (finalY > 240) { doc.addPage(); finalY = 20; }
 
-  doc.setFont("helvetica", "bold");
-  doc.text(`Date Signed: ${dateString}`, 20, finalY + 5);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Date Signed: ${dateString}`, 20, finalY + 5);
 
-  if (signatureImage) {
-    // Draw a line for the signature
-    doc.addImage(signatureImage, 'PNG', 20, finalY + 15, 50, 20);
-    doc.line(20, finalY + 35, 100, finalY + 35);
-    doc.setFontSize(8);
-    doc.text("Patient or Guardian Signature", 20, finalY + 40);
-    doc.text(`Patient: ${formData.firstName} ${formData.lastName}`, 20, finalY + 46);
+    if (signatureData) {
+      // Draw a line for the signature
+      doc.addImage(signatureData, 'PNG', 20, finalY + 15, 50, 20);
+      doc.line(20, finalY + 35, 100, finalY + 35);
+      doc.setFontSize(8);
+      doc.text("Patient or Guardian Signature", 20, finalY + 40);
+      doc.text(`Patient: ${formData.firstName} ${formData.lastName}`, 20, finalY + 46);
+    }
+    const totalPages = doc.internal.getNumberOfPages();
+
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      // 180 is the X-position (right side), 20 is the Y-position (aligned with logo)
+      doc.text(`Page ${i} / ${totalPages}`, 180, 20, { align: 'right' });
+    }
+
+    //doc.save("medical-form.pdf");
+
+    // 4. Send to your API route
+    try {
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pdfBase64,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Form sent successfully!");
+      } else {
+        const errorData = await response.json();
+        console.error("Error sending email:", errorData);
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
+
+    window.open(URL.createObjectURL(doc.output("blob")));
+  };
+
+
+
+  const handleLanguageToggle = () => {
+    setLanguage((prev) => (prev === 'en' ? 'es' : 'en'));
   }
-const totalPages = doc.internal.getNumberOfPages();
 
-for (let i = 1; i <= totalPages; i++) {
-    doc.setPage(i);
-    doc.setFontSize(10);
-    // 180 is the X-position (right side), 20 is the Y-position (aligned with logo)
-    doc.text(`Page ${i} / ${totalPages}`, 180, 20, { align: 'right' });
-}
 
-//doc.save("medical-form.pdf");
 
-  window.open(URL.createObjectURL(doc.output("blob")));
-  
-};
-
-const handleLanguageToggle = () => {
-  setLanguage((prev) => (prev === 'en' ? 'es' : 'en'));
-}
-
-return (
-  <Container>
-    <Form onSubmit={(e) => { e.preventDefault(); generatePDF(); }}>
-      <div className="card-header mb-3">
-        <nav className="navbar bg-body-tertiary">
-          <div className="container-fluid">
-            <Link className="navbar-brand" href="#">
-              <Image
-                src="/logo.png"
-                alt="Company Logo"
-                width={150}
-                height={50}
-                priority // Ensures the logo loads immediately
-              />
-            </Link>
-          </div>
-        </nav>
-        <br />
-        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="button" onClick={handleLanguageToggle} className="btn btn-outline-primary btn-lg">
-            {t.langButton}
-          </button>
-        </div>
-        <br />
-        <div className='row mb-3'>
-          <div className="col">
-            <h4 className="text-center">{t.pleaseFillForm}</h4>
-          </div>
-        </div>
-        <div className='row mb-3'>
-          <div className="col">
-            <h4 className="text-center">{t.medicalAndDentalHistory}</h4>
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="firstName"
-              className="form-control"
-              placeholder={t.firstName}
-              value={formData.firstName}
-              onChange={handleChange}
-              suppressHydrationWarning // Add this here
-            />
-          </div>
-          <div className="col">
-            <input
-              name="lastName"
-              className="form-control"
-              placeholder={t.lastName}
-              value={formData.lastName}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label className="fs-6">{t.dob}</label>
-            <input
-              name="dateOfBirth"
-              type="date"
-              className="form-control"
-              placeholder="Date of Birth"
-              value={formData.dateOfBirth || ''}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <label></label>
-            <input
-              name="nss"
-              className="form-control"
-              placeholder={t.nss}
-              value={formData.nss}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="address"
-              className="form-control"
-              placeholder={t.street}
-              value={formData.address}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <input
-              name="address2"
-              className="form-control"
-              placeholder={t.unit}
-              value={formData.address2}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="city"
-              className="form-control"
-              placeholder={t.city}
-              value={formData.city}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <input
-              name="state"
-              className="form-control"
-              placeholder={t.state}
-              value={formData.state}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <input
-              name="zipCode"
-              className="form-control"
-              placeholder={t.zipCode}
-              value={formData.zipCode}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="homePhone"
-              className="form-control"
-              placeholder={t.homePhone}
-              value={formData.homePhone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <input
-              name="cellPhone"
-              className="form-control"
-              placeholder={t.cellPhone}
-              value={formData.cellPhone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <input
-              name="workPhone"
-              className="form-control"
-              placeholder={t.workPhone}
-              value={formData.workPhone}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="email"
-              className="form-control"
-              placeholder={t.email}
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className='row mb-3'>
-          <div className="col">
-            <h6 className="card-header">{t.sexAtBirth}:</h6>
-            <div className="form-check">
-              {/*Make Option*/}
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="sexAtBirth"
-                  id="sexMale"
-                  value={t.male}
-                  checked={formData.sexAtBirth === t.male}
-                  onChange={handleChange}
+  return (
+    <Container>
+      <Form onSubmit={(e) => { e.preventDefault(); generatePDF(); }}>
+        <div className="card-header mb-3">
+          <nav className="navbar bg-body-tertiary">
+            <div className="container-fluid">
+              <Link className="navbar-brand" href="#">
+                <Image
+                  src="/logo1.png"
+                  alt="Company Logo"
+                  width={150}
+                  height={50}
+                  priority // Ensures the logo loads immediately
                 />
-                <label className="form-check-label" htmlFor="inlineCheckbox1">{t.male}</label>
-              </div>
-              {/*Female Option*/}
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name='sexAtBirth'
-                  id="sexFemale"
-                  value={t.female}
-                  checked={formData.sexAtBirth === t.female}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label" htmlFor="inlineCheckbox2">{t.female}</label>
-              </div>
+              </Link>
             </div>
-          </div>
-        </div>
-        <div className='row mb-3'>
-          <div className="col">
-            <h6 className="card-header">{t.describeGender}:</h6>
-            <div className="form-check">
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name='gender'
-                  id="genderMan"
-                  value={t.man}
-                  checked={formData.gender === t.man}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label" htmlFor="inlineCheckbox1">{t.man}</label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name='gender'
-                  id="genderWoman"
-                  value={t.woman}
-                  checked={formData.gender === t.woman}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label" htmlFor="inlineCheckbox2">{t.woman}</label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name='gender'
-                  id="Transgeneder"
-                  value={t.transgender}
-                  checked={formData.gender === t.transgender}
-                  onChange={handleChange}
-                />
-                <label className="form-check-label" htmlFor="inlineCheckbox2">{t.transgender}</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h6 className="card-header">{t.emergencyContact}:</h6>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="emergencyContactName"
-              className="form-control"
-              placeholder={t.contactName}
-              value={formData.emergencyContactName}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="emergencyContactRelationship"
-              className="form-control"
-              placeholder={t.relationship}
-              list='EmergencyContactRelationshipanswers'
-              value={formData.emergencyContactRelationship}
-              onChange={handleChange}
-            />
-            <datalist id="EmergencyContactRelationshipanswers">
-              <option value={t.spouse} />
-              <option value={t.child} />
-              <option value={t.parent} />
-              <option value={t.sibling} />
-              <option value={t.friend} />
-              <option value={t.other} />
-            </datalist>
-          </div>
-          <div className="col">
-            <input
-              name="emergencyContactPhone"
-              className="form-control"
-              placeholder={t.emergencyPhone}
-              value={formData.emergencyContactPhone}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <h4 className="card-header text-center">{t.medicalHistory}</h4>
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="nameOfPhysician"
-              className="form-control"
-              placeholder={t.physicianName}
-              value={formData.nameOfPhysician}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <h6 className="card-header">{t.lastPhysical}:</h6>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="dateLastExam"
-              type='date'
-              className="form-control"
-              // placeholder="Last Physical Exam Date" 
-              value={formData.dateLastExam}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <input
-              name="physicianPhone"
-              className="form-control"
-              placeholder={t.physicianPhone}
-              value={formData.physicianPhone}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="physicianAddress"
-              className="form-control"
-              placeholder={t.physicianAddress}
-              value={formData.physicianAddress}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="underCareofAnything"
-              className="form-control"
-              placeholder={t.underCare}
-              value={medicalHistory.underCareofAnything}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="takingMedication"
-              className="form-control"
-              placeholder={t.medication}
-              value={medicalHistory.takingMedication}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <input
-              name="haveAllergies"
-              className="form-control"
-              placeholder={t.allergies}
-              value={medicalHistory.haveAllergies}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <div className="form-check form-switch">
-              <input name="allergicToLatex" className="form-check-input" type="checkbox" role="switchc" id="checkLAtex" checked={medicalHistory.allergicToLatex} onChange={() => handleToggle('allergicToLatex')} />
-              <label className="form-check-label" htmlFor="allergicToLatex">{t.latex}</label>
-            </div>
-          </div>
-        </div>
-        <div className="mb-3">
-          {/* Header stays outside or in its own row so it spans the full width */}
-          <h5 className="card-header mb-2">{t.haveOrhad}</h5>
-          {/* Row 1 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.bloodPressure} onChange={() => handleToggle('bloodPressure')} />
-                <label className="form-check-label" htmlFor="checkBloodPressure">{t.bloodPressure}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.epilepsy} onChange={() => handleToggle('epilepsy')} />
-                <label className="form-check-label" htmlFor="checkepilepsy">{t.epilepsy}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.osteoporosis} onChange={() => handleToggle('osteoporosis')} />
-                <label className="form-check-label" htmlFor="checkOsteoporosis">{t.osteoporosis}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 2 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.alcoholAddiction} onChange={() => handleToggle('alcoholAddiction')} />
-                <label className="form-check-label" htmlFor="checkAlcoholAddiction">{t.alcoholAddiction}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.faintingSpells} onChange={() => handleToggle('faintingSpells')} />
-                <label className="form-check-label" htmlFor="checkfaintingSpell">{t.faintingSpells}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.prolongedBleeding} onChange={() => handleToggle('prolongedBleeding')} />
-                <label className="form-check-label" htmlFor="checkprolongedBleeding">{t.prolongedBleeding}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 3 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.anemia} onChange={() => handleToggle('anemia')} />
-                <label className="form-check-label" htmlFor="checkanemia">{t.anemia}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.feverBlisters} onChange={() => handleToggle('feverBlisters')} />
-                <label className="form-check-label" htmlFor="checkfeverBlisters">{t.feverBlisters}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.prostheticImplants} onChange={() => handleToggle('prostheticImplants')} />
-                <label className="form-check-label" htmlFor="checkprostheticImplants">{t.prostheticImplants}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 4 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.anorexia} onChange={() => handleToggle('anorexia')} />
-                <label className="form-check-label" htmlFor="checkanorexia">{t.anorexia}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.glaucoma} onChange={() => handleToggle('glaucoma')} />
-                <label className="form-check-label" htmlFor="checkGlaucoma">{t.glaucoma}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.psychiatricCare} onChange={() => handleToggle('psychiatricCare')} />
-                <label className="form-check-label" htmlFor="checkpsychiaricCare">{t.psychiatricCare}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 5 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.arthritisRheumatism} onChange={() => handleToggle('arthritisRheumatism')} />
-                <label className="form-check-label" htmlFor="checkarthritisRheumatism">{t.arthritisRheumatism}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.hearingImpaired} onChange={() => handleToggle('hearingImpaired')} />
-                <label className="form-check-label" htmlFor="checkhearingImpaired">{t.hearingImpaired}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.radiationTherapy} onChange={() => handleToggle('radiationTherapy')} />
-                <label className="form-check-label" htmlFor="checkradiationTherapy">{t.radiationTherapy}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 6 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.artificialHeartValve} onChange={() => handleToggle('artificialHeartValve')} />
-                <label className="form-check-label" htmlFor="checkartificialHeartValve">{t.artificialHeartValve}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.heartDiseaseSurgery} onChange={() => handleToggle('heartDiseaseSurgery')} />
-                <label className="form-check-label" htmlFor="checkheartDiseaseSurgery">{t.heartDiseaseSurgery}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.recreationalDrugUse} onChange={() => handleToggle('recreationalDrugUse')} />
-                <label className="form-check-label" htmlFor="checkrecreationalDrugUse">{t.recreationalDrugUse}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 7 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.artificialJoint} onChange={() => handleToggle('artificialJoint')} />
-                <label className="form-check-label" htmlFor="checkartificialJoint">{t.artificialJoint}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.heartMurmur} onChange={() => handleToggle('heartMurmur')} />
-                <label className="form-check-label" htmlFor="checkheartMurmur">{t.heartMurmur}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.removalofSpleen} onChange={() => handleToggle('removalofSpleen')} />
-                <label className="form-check-label" htmlFor="checkremovalofSpleen">{t.removalofSpleen}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 8 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.asthma} onChange={() => handleToggle('asthma')} />
-                <label className="form-check-label" htmlFor="checkasthma">{t.asthma}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.heartPacemaker} onChange={() => handleToggle('heartPacemaker')} />
-                <label className="form-check-label" htmlFor="checkheartPacemaker">{t.heartPacemaker}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.rheumaticFever} onChange={() => handleToggle('rheumaticFever')} />
-                <label className="form-check-label" htmlFor="checkrheumaticFever">{t.rheumaticFever}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 9 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.bulimia} onChange={() => handleToggle('bulimia')} />
-                <label className="form-check-label" htmlFor="checkbulimia">{t.bulimia}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.hemophilia} onChange={() => handleToggle('hemophilia')} />
-                <label className="form-check-label" htmlFor="checkhemophilia">{t.hemophilia}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.rheumaticHeartDisease} onChange={() => handleToggle('rheumaticHeartDisease')} />
-                <label className="form-check-label" htmlFor="checkrheumaticHeartDisease">{t.rheumaticHeartDisease}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 10 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.cancer} onChange={() => handleToggle('cancer')} />
-                <label className="form-check-label" htmlFor="checkcancer">{t.cancer}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.hepatitis} onChange={() => handleToggle('hepatitis')} />
-                <label className="form-check-label" htmlFor="checkhepatitis">{t.hepatitis}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.sickleCellDisease} onChange={() => handleToggle('sickleCellDisease')} />
-                <label className="form-check-label" htmlFor="checksickleCellDisease">{t.sickleCellDisease}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 11 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.chemicalDependency} onChange={() => handleToggle('chemicalDependency')} />
-                <label className="form-check-label" htmlFor="checkchemicalDependency">{t.chemicalDependency}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.hivAids} onChange={() => handleToggle('hivAids')} />
-                <label className="form-check-label" htmlFor="chckhivAids">{t.hivAids}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.sinusTrouble} onChange={() => handleToggle('sinusTrouble')} />
-                <label className="form-check-label" htmlFor="checkSinusTrouble">{t.sinusTrouble}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 12 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.chemotherapy} onChange={() => handleToggle('chemotherapy')} />
-                <label className="form-check-label" htmlFor="checkchemotherapy">{t.chemotherapy}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.kidneyProblems} onChange={() => handleToggle('kidneyProblems')} />
-                <label className="form-check-label" htmlFor="checkkidneyProblems">{t.kidneyProblems}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.stroke} onChange={() => handleToggle('stroke')} />
-                <label className="form-check-label" htmlFor="checkstroke">{t.stroke}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 13 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.chestPain} onChange={() => handleToggle('chestPain')} />
-                <label className="form-check-label" htmlFor="checkchestPain">{t.chestPain}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.learningDisability} onChange={() => handleToggle('learningDisability')} />
-                <label className="form-check-label" htmlFor="checklearningDisability">{t.learningDisability}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.thyroidDisease} onChange={() => handleToggle('thyroidDisease')} />
-                <label className="form-check-label" htmlFor="checkthyrodiDisease">{t.thyroidDisease}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 14*/}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.congenitalHeartDisease} onChange={() => handleToggle('congenitalHeartDisease')} />
-                <label className="form-check-label" htmlFor="checkcongenitalHeartDisease">{t.congenitalHeartDisease}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.liverDisease} onChange={() => handleToggle('liverDisease')} />
-                <label className="form-check-label" htmlFor="checkliverDisease">{t.liverDisease}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.tuberculosis} onChange={() => handleToggle('tuberculosis')} />
-                <label className="form-check-label" htmlFor="checktuberculosis">{t.tuberculosis}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 15 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.cortisoneMedicine} onChange={() => handleToggle('cortisoneMedicine')} />
-                <label className="form-check-label" htmlFor="checkCortisoneMedicine">{t.cortisoneMedicine}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.lungDisease} onChange={() => handleToggle('lungDisease')} />
-                <label className="form-check-label" htmlFor="checklungDisease">{t.lungDisease}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.tumors} onChange={() => handleToggle('tumors')} />
-                <label className="form-check-label" htmlFor="checktumors">{t.tumors}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 16 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.diabetes} onChange={() => handleToggle('diabetes')} />
-                <label className="form-check-label" htmlFor="checkdiabetes">{t.diabetes}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.mitralValveProlapse} onChange={() => handleToggle('mitralValveProlapse')} />
-                <label className="form-check-label" htmlFor="checkmitralValveProlapse">{t.mitralValveProlapse}</label>
-              </div>
-            </div>
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.ulcers} onChange={() => handleToggle('ulcers')} />
-                <label className="form-check-label" htmlFor="checkulcers">{t.ulcers}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 17 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.emphysema} onChange={() => handleToggle('emphysema')} />
-                <label className="form-check-label" htmlFor="checkeemphysema">{t.emphysema}</label>
-              </div>
-            </div>
-            {/* Column 2 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.neurologicalDisorders} onChange={() => handleToggle('neurologicalDisorders')} />
-                <label className="form-check-label" htmlFor="checkneurologicalDisorders">{t.neurologicalDisorders}</label>
-              </div>
-            </div>
-
-            {/* Column 3 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.venerealDisease} onChange={() => handleToggle('venerealDisease')} />
-                <label className="form-check-label" htmlFor="checkvenerealDisease">{t.venerealDisease}</label>
-              </div>
-            </div>
-          </div>
-          {/* Row 18 */}
-          <div className="row">
-            {/* Column 1 */}
-            <div className="col-md-4">
-              <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" checked={medicalHistory.organTransplant} onChange={() => handleToggle('organTransplant')} />
-                <label className="form-check-label" htmlFor="checkorganTransplant">{t.organTransplant}</label>
-              </div>
-            </div>
+          </nav>
+          <br />
+          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" onClick={handleLanguageToggle} className="btn btn-outline-primary btn-lg">
+              {t.langButton}
+            </button>
           </div>
           <br />
-          <div className="row mb-3">
-            <h6>{t.hospitalizationAccident}</h6>
+          <div className='row mb-3'>
             <div className="col">
-              <input name="hospitalizationAccident" className="form-control" placeholder={t.ifYesExplain} value={medicalHistory.hospitalizationAccident} suppressHydrationWarning={true} onChange={handleChange} />
+              <h4 className="text-center">{t.pleaseFillForm}</h4>
             </div>
           </div>
-          {/* do you smoke question */}
-          <div className="row mb-3">
+          <div className='row mb-3'>
             <div className="col">
-              <label htmlFor="smokeQuestion" className="form-label">{t.tabacco}</label>
-              <input className="form-control" id="smokeQuestion" list="smokeQuestionanswers" name='smokeTabaccoProducts' placeholder={t.option} value={medicalHistory.smokeTabaccoProducts || ''} onChange={handleChange} />
-              <datalist id="smokeQuestionanswers">
-                <option value={t.iDontSmooke} />
-                <option value={t.cigarrettes} />
-                <option value={t.vape} />
-                <option value={t.pipe} />
-              </datalist>
-            </div>
-          </div>
-          {/* do you drink alcohol? question */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="alcoholQuestion" className="form-label">{t.alcohol}</label>
-              <input className="form-control" id="alcoholQuestion" list="alcoholQuestionanswers" name='drinkAlcohol' placeholder={t.option} value={medicalHistory.drinkAlcohol || ''} onChange={handleChange} />
-              <datalist id="alcoholQuestionanswers">
-                <option value={t.dontDrinkAlcohl} />
-                <option value={t.drinkOccasionally} />
-                <option value={t.drinkRegularly} />
-              </datalist>
-            </div>
-          </div>
-          {formData.sexAtBirth === t.female && (
-            <>
-              <div className="row mb-3">
-                <h6 className="text-center">{t.onlyWomen}</h6>
-                <div className="col-md-6">
-                  <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" checked={medicalHistory.pregnant} onChange={() => handleToggle('pregnant')} />
-                    <label className="form-check-label" htmlFor="checkpregnant">{t.pregnant}</label>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" checked={medicalHistory.nursing} onChange={() => handleToggle('nursing')} />
-                    <label className="form-check-label" htmlFor="checkallergicnursing">{t.nursing}</label>
-                  </div>
-                </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-md-6">
-                  <input name="nOfPregnancies" className="form-control" placeholder={t.nOfPregnancies} value={medicalHistory.nOfPregnancies} onChange={handleChange} />
-                </div>
-                <div className="col-md-6">
-                  <input name="nOfLivingChildren" className="form-control" placeholder={t.nOfLivingChildren} value={medicalHistory.nOfLivingChildren} onChange={handleChange} />
-                </div>
-              </div>
-              <div className="row mb">
-                <div className="col-md-12">
-                  <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" checked={medicalHistory.birthControlMedication} onChange={() => handleToggle('birthControlMedication')} />
-                    <label className="form-check-label" htmlFor="checkbirthControlMedication">{t.birthControlMedication}</label>
-                  </div>
-                </div>
-                <div className="col-mb-12">
-                  <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" checked={medicalHistory.becomingPregnant} onChange={() => handleToggle('becomingPregnant')} />
-                    <label className="form-check-label" htmlFor="checkanticipateBecomingPregnant">{t.becomingPregnant}</label>
-                  </div>
-                </div>
-              </div>
-            </>)}
-          <div className="row mb-3">
-            <div className="col">
-              <h4 className="card-header text-center">{t.dentalHistory}</h4>
+              <h4 className="text-center">{t.medicalAndDentalHistory}</h4>
             </div>
           </div>
           <div className="row mb-3">
             <div className="col">
-              <label>{t.lastDentalVisit}</label>
-              <input name="dateLastDentalVisit" type='date' className="form-control" value={dentalHistory.dateLastDentalVisit || ''} onChange={handleChange} />
-            </div>
-          </div>
-          <div className="row mb-3">
-            <div className="col">
-              <label>{t.dentalProblem}</label>
-              <input name="problemBroughtYouIn" type='text' placeholder={t.ifYesExplain} className="form-control" value={dentalHistory.problemBroughtYouIn} onChange={handleChange} />
-            </div>
-          </div>
-          {/* Question 1 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput" className="form-label">{t.gumsBleed}</label>
-              <input className="form-control" id="answerOptionsInput" list="answerOptionsDetalist" name='gumsBleed' placeholder={t.option} value={dentalHistory.gumsBleed || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 2 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput2" className="form-label">{t.tempSensitivity}</label>
-              <input className="form-control" id="answerOptionsInput2" list="answerOptionsDetalist2" name='teethSensitiveToHotCold' placeholder={t.option} value={dentalHistory.teethSensitiveToHotCold || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist2">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 3 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput3" className="form-label">{t.tasteSensitivity}</label>
-              <input className="form-control" list="answerOptionsDetalist3" id="answerOptionsInput3" name='teethSensitiveToSweets' placeholder={t.option} value={dentalHistory.teethSensitiveToSweets || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist3">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 4 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput4" className="form-label">{t.toothPain}</label>
-              <input className="form-control" list="answerOptionsDetalist4" id="answerOptionsInput4" name='painTeeth' placeholder={t.option} value={dentalHistory.painTeeth || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist4">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 5 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput5" className="form-label">{t.mouthSore}</label>
-              <input className="form-control" list="answerOptionsDetalist5" id="answerOptionsInput5" name='haveSoreOrLumpsInMouth' placeholder={t.option} value={dentalHistory.haveSoreOrLumpsInMouth || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist5">
-                <option value={t.yes} />
-                <option value={t.no} />
-                {/* <option value={t.sometimes}/> */}
-              </datalist>
-            </div>
-          </div>
-          {/* Question 6 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput6" className="form-label">{t.jawInjury}</label>
-              <input className="form-control" list="answerOptionsDetalist6" id="answerOptionsInput6" name='neckJawInjuries' placeholder={t.option} value={dentalHistory.neckJawInjuries || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist6">
-                <option value={t.yes} />
-                <option value={t.no} />
-                {/* <option value={t.sometimes}/> */}
-              </datalist>
-            </div>
-          </div>
-          {/* Question 7 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput7" className="form-label">{t.headaches}</label>
-              <input className="form-control" list="answerOptionsDetalist7" id="answerOptionsInput7" name='headaches' placeholder={t.option} value={dentalHistory.headaches || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist7">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 8 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput8" className="form-label">{t.grindTeeth}</label>
-              <input className="form-control" list="answerOptionsDetalist8" id="answerOptionsInput8" name='grindTeeth' placeholder={t.option} value={dentalHistory.grindTeeth || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist8">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 9 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput9" className="form-label">{t.biteCheek}</label>
-              <input className="form-control" list="answerOptionsDetalist9" id="answerOptionsInput9" name='biteCheeksLips' placeholder={t.option} value={dentalHistory.biteCheeksLips || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist9">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 10 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput10" className="form-label">{t.jawClick}</label>
-              <input className="form-control" list="answerOptionsDetalist10" id="answerOptionsInput10" name='expereiencedClickingJaw' placeholder={t.option} value={dentalHistory.expereiencedClickingJaw || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist10">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 11 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput11" className="form-label">{t.facePain}</label>
-              <input className="form-control" list="answerOptionsDetalist11" id="answerOptionsInput11" name='faceEarjointPain' placeholder={t.option} value={dentalHistory.faceEarjointPain || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist11">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 12 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput12" className="form-label">{t.mouthOpen}</label>
-              <input className="form-control" list="answerOptionsDetalist12" id="answerOptionsInput12" name='difficultyOpeningMouth' placeholder={t.option} value={dentalHistory.difficultyOpeningMouth || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist12">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 13 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput13" className="form-label">{t.chewing}</label>
-              <input className="form-control" list="answerOptionsDetalist13" id="answerOptionsInput13" name='difficultyChewing' placeholder={t.option} value={dentalHistory.difficultyChewing || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist13">
-                <option value={t.yes} />
-                <option value={t.no} />
-                <option value={t.sometimes} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 14 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput14" className="form-label">{t.ortho}</label>
-              <input className="form-control" list="answerOptionsDetalist14" id="answerOptionsInput14" name='orthodontic' placeholder={t.option} value={dentalHistory.orthodontic || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist14">
-                <option value={t.yes} />
-                <option value={t.no} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 15 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput15" className="form-label">{t.extractionBleed}</label>
-              <input className="form-control" list="answerOptionsDetalist15" id="answerOptionsInput15" name='dentalProlongedBleeding' placeholder={t.option} value={dentalHistory.dentalProlongedBleeding || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist15">
-                <option value={t.yes} />
-                <option value={t.no} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 16 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput16" className="form-label">{t.brushingInstr}</label>
-              <input className="form-control" list="answerOptionsDetalist16" id="answerOptionsInput16" name='instructioinsOfBrushing' placeholder={t.option} value={dentalHistory.instructioinsOfBrushing || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist16">
-                <option value={t.yes} />
-                <option value={t.no} />
-              </datalist>
-            </div>
-          </div>
-          {/* Question 17 */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput17" className="form-label">{t.gumInstr}</label>
-              <input className="form-control" list="answerOptionsDetalist17" id="answerOptionsInput17" name='careOfGums' placeholder={t.option} value={dentalHistory.careOfGums || ''} onChange={handleChange} />
-              <datalist id="answerOptionsDetalist17">
-                <option value={t.yes} />
-                <option value={t.no} />
-              </datalist>
-            </div>
-          </div>
-          {/* Comments */}
-          <div className="row mb-3">
-            <div className="col">
-              <label htmlFor="answerOptionsInput17" className="form-label">{t.comments}</label>
-              <textarea
+              <input
+                name="firstName"
                 className="form-control"
-                id="answerOptionsInput17"
-                name='dentalComments'
-                placeholder={t.writeComments}
-                style={{ minHeight: '100px', fontSize: '16px' }}
-                value={dentalHistory.dentalComments || ''}
+                placeholder={t.firstName ||""}
+                value={formData.firstName}
                 onChange={handleChange}
-                maxLength={500} // Limits input to 500 characters
+                suppressHydrationWarning // Add this here
               />
-
+            </div>
+            <div className="col">
+              <input
+                name="lastName"
+                className="form-control"
+                placeholder={t.lastName}
+                value={formData.lastName}
+                onChange={handleChange}
+              />
             </div>
           </div>
-
-          {/* Disclaimer */}
           <div className="row mb-3">
             <div className="col">
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">{t.iHaveRead}<b>{t.noticePrivacy}</b>
-                  (
-                  <Link href="/privacy-policy/en" target="_blank" className="text-decoration-none">English</Link>
-                  |
-                  <Link href="/privacy-policy/es" target="_blank" className="text-decoration-none">Español</Link>
-                  ).  
-                  {t.copy}
-                </li>
-                <li className="list-group-item">{t.authStaff}</li>
-                <li className="list-group-item">{t.bySigningThisDoc} <b>{t.cancelPolicy}</b></li>
-                <li className="list-group-item">{t.respCost} <b>{t.totalObligation}</b></li>
-                <li className="list-group-item"><b>{t.certifyInfo}</b>{t.notHold}</li>
-              </ul>
+              <label className="fs-6">{t.dob}</label>
+              <input
+                name="dateOfBirth"
+                type="date"
+                className="form-control"
+                placeholder="Date of Birth"
+                value={formData.dateOfBirth || ''}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <label></label>
+              <input
+                name="nss"
+                className="form-control"
+                placeholder={t.nss}
+                value={formData.nss}
+                onChange={handleChange}
+              />
             </div>
           </div>
-
           <div className="row mb-3">
-            <label className="form-label fs-4"><b>{t.signature}</b></label>
-            <SignatureForm
-              onSignatureChange={(dataUrl) => setSignatureImage(dataUrl)}
-              clearLabel={t.clearSig} />
-            <br />
-            <div className="mt-4">
-              <Button variant="primary" type="submit" className="me-2">
-                {t.send}
-              </Button>
-
-              <Button variant="secondary" type="button" onClick={handleClear}>
-                {t.clearForm}
-              </Button>
+            <div className="col">
+              <input
+                name="address"
+                className="form-control"
+                placeholder={t.street}
+                value={formData.address}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                name="address2"
+                className="form-control"
+                placeholder={t.unit}
+                value={formData.address2}
+                onChange={handleChange}
+              />
             </div>
           </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="city"
+                className="form-control"
+                placeholder={t.city}
+                value={formData.city}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                name="state"
+                className="form-control"
+                placeholder={t.state}
+                value={formData.state}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                name="zipCode"
+                className="form-control"
+                placeholder={t.zipCode}
+                value={formData.zipCode}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="homePhone"
+                className="form-control"
+                placeholder={t.homePhone}
+                value={formData.homePhone}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                name="cellPhone"
+                className="form-control"
+                placeholder={t.cellPhone}
+                value={formData.cellPhone}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                name="workPhone"
+                className="form-control"
+                placeholder={t.workPhone}
+                value={formData.workPhone}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="email"
+                className="form-control"
+                placeholder={t.email}
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className='row mb-3'>
+            <div className="col">
+              <h6 className="card-header">{t.sexAtBirth}:</h6>
+              <div className="form-check">
+                {/*Make Option*/}
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="sexAtBirth"
+                    id="sexMale"
+                    value={t.male}
+                    checked={formData.sexAtBirth === t.male}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label" htmlFor="inlineCheckbox1">{t.male}</label>
+                </div>
+                {/*Female Option*/}
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name='sexAtBirth'
+                    id="sexFemale"
+                    value={t.female}
+                    checked={formData.sexAtBirth === t.female}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label" htmlFor="inlineCheckbox2">{t.female}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='row mb-3'>
+            <div className="col">
+              <h6 className="card-header">{t.describeGender}:</h6>
+              <div className="form-check">
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name='gender'
+                    id="genderMan"
+                    value={t.man}
+                    checked={formData.gender === t.man}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label" htmlFor="inlineCheckbox1">{t.man}</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name='gender'
+                    id="genderWoman"
+                    value={t.woman}
+                    checked={formData.gender === t.woman}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label" htmlFor="inlineCheckbox2">{t.woman}</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name='gender'
+                    id="Transgeneder"
+                    value={t.transgender}
+                    checked={formData.gender === t.transgender}
+                    onChange={handleChange}
+                  />
+                  <label className="form-check-label" htmlFor="inlineCheckbox2">{t.transgender}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h6 className="card-header">{t.emergencyContact}:</h6>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="emergencyContactName"
+                className="form-control"
+                placeholder={t.contactName}
+                value={formData.emergencyContactName}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="emergencyContactRelationship"
+                className="form-control"
+                placeholder={t.relationship}
+                list='EmergencyContactRelationshipanswers'
+                value={formData.emergencyContactRelationship}
+                onChange={handleChange}
+              />
+              <datalist id="EmergencyContactRelationshipanswers">
+                <option value={t.spouse} />
+                <option value={t.child} />
+                <option value={t.parent} />
+                <option value={t.sibling} />
+                <option value={t.friend} />
+                <option value={t.other} />
+              </datalist>
+            </div>
+            <div className="col">
+              <input
+                name="emergencyContactPhone"
+                className="form-control"
+                placeholder={t.emergencyPhone}
+                value={formData.emergencyContactPhone}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <h4 className="card-header text-center">{t.medicalHistory}</h4>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="nameOfPhysician"
+                className="form-control"
+                placeholder={t.physicianName}
+                value={formData.nameOfPhysician}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <h6 className="card-header">{t.lastPhysical}:</h6>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="dateLastExam"
+                type='date'
+                className="form-control"
+                // placeholder="Last Physical Exam Date" 
+                value={formData.dateLastExam}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col">
+              <input
+                name="physicianPhone"
+                className="form-control"
+                placeholder={t.physicianPhone}
+                value={formData.physicianPhone}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="physicianAddress"
+                className="form-control"
+                placeholder={t.physicianAddress}
+                value={formData.physicianAddress}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="underCareofAnything"
+                className="form-control"
+                placeholder={t.underCare}
+                value={medicalHistory.underCareofAnything}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="takingMedication"
+                className="form-control"
+                placeholder={t.medication}
+                value={medicalHistory.takingMedication}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <input
+                name="haveAllergies"
+                className="form-control"
+                placeholder={t.allergies}
+                value={medicalHistory.haveAllergies}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col">
+              <div className="form-check form-switch">
+                <input name="allergicToLatex" className="form-check-input" type="checkbox" role="switchc" id="checkLAtex" checked={medicalHistory.allergicToLatex} onChange={() => handleToggle('allergicToLatex')} />
+                <label className="form-check-label" htmlFor="allergicToLatex">{t.latex}</label>
+              </div>
+            </div>
+          </div>
+          <div className="mb-3">
+            {/* Header stays outside or in its own row so it spans the full width */}
+            <h5 className="card-header mb-2">{t.haveOrhad}</h5>
+            {/* Row 1 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.bloodPressure} onChange={() => handleToggle('bloodPressure')} />
+                  <label className="form-check-label" htmlFor="checkBloodPressure">{t.bloodPressure}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.epilepsy} onChange={() => handleToggle('epilepsy')} />
+                  <label className="form-check-label" htmlFor="checkepilepsy">{t.epilepsy}</label>
+                </div>
+              </div>
 
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.osteoporosis} onChange={() => handleToggle('osteoporosis')} />
+                  <label className="form-check-label" htmlFor="checkOsteoporosis">{t.osteoporosis}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 2 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.alcoholAddiction} onChange={() => handleToggle('alcoholAddiction')} />
+                  <label className="form-check-label" htmlFor="checkAlcoholAddiction">{t.alcoholAddiction}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.faintingSpells} onChange={() => handleToggle('faintingSpells')} />
+                  <label className="form-check-label" htmlFor="checkfaintingSpell">{t.faintingSpells}</label>
+                </div>
+              </div>
 
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.prolongedBleeding} onChange={() => handleToggle('prolongedBleeding')} />
+                  <label className="form-check-label" htmlFor="checkprolongedBleeding">{t.prolongedBleeding}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 3 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.anemia} onChange={() => handleToggle('anemia')} />
+                  <label className="form-check-label" htmlFor="checkanemia">{t.anemia}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.feverBlisters} onChange={() => handleToggle('feverBlisters')} />
+                  <label className="form-check-label" htmlFor="checkfeverBlisters">{t.feverBlisters}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.prostheticImplants} onChange={() => handleToggle('prostheticImplants')} />
+                  <label className="form-check-label" htmlFor="checkprostheticImplants">{t.prostheticImplants}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 4 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.anorexia} onChange={() => handleToggle('anorexia')} />
+                  <label className="form-check-label" htmlFor="checkanorexia">{t.anorexia}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.glaucoma} onChange={() => handleToggle('glaucoma')} />
+                  <label className="form-check-label" htmlFor="checkGlaucoma">{t.glaucoma}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.psychiatricCare} onChange={() => handleToggle('psychiatricCare')} />
+                  <label className="form-check-label" htmlFor="checkpsychiaricCare">{t.psychiatricCare}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 5 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.arthritisRheumatism} onChange={() => handleToggle('arthritisRheumatism')} />
+                  <label className="form-check-label" htmlFor="checkarthritisRheumatism">{t.arthritisRheumatism}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.hearingImpaired} onChange={() => handleToggle('hearingImpaired')} />
+                  <label className="form-check-label" htmlFor="checkhearingImpaired">{t.hearingImpaired}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.radiationTherapy} onChange={() => handleToggle('radiationTherapy')} />
+                  <label className="form-check-label" htmlFor="checkradiationTherapy">{t.radiationTherapy}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 6 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.artificialHeartValve} onChange={() => handleToggle('artificialHeartValve')} />
+                  <label className="form-check-label" htmlFor="checkartificialHeartValve">{t.artificialHeartValve}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.heartDiseaseSurgery} onChange={() => handleToggle('heartDiseaseSurgery')} />
+                  <label className="form-check-label" htmlFor="checkheartDiseaseSurgery">{t.heartDiseaseSurgery}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.recreationalDrugUse} onChange={() => handleToggle('recreationalDrugUse')} />
+                  <label className="form-check-label" htmlFor="checkrecreationalDrugUse">{t.recreationalDrugUse}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 7 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.artificialJoint} onChange={() => handleToggle('artificialJoint')} />
+                  <label className="form-check-label" htmlFor="checkartificialJoint">{t.artificialJoint}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.heartMurmur} onChange={() => handleToggle('heartMurmur')} />
+                  <label className="form-check-label" htmlFor="checkheartMurmur">{t.heartMurmur}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.removalofSpleen} onChange={() => handleToggle('removalofSpleen')} />
+                  <label className="form-check-label" htmlFor="checkremovalofSpleen">{t.removalofSpleen}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 8 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.asthma} onChange={() => handleToggle('asthma')} />
+                  <label className="form-check-label" htmlFor="checkasthma">{t.asthma}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.heartPacemaker} onChange={() => handleToggle('heartPacemaker')} />
+                  <label className="form-check-label" htmlFor="checkheartPacemaker">{t.heartPacemaker}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.rheumaticFever} onChange={() => handleToggle('rheumaticFever')} />
+                  <label className="form-check-label" htmlFor="checkrheumaticFever">{t.rheumaticFever}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 9 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.bulimia} onChange={() => handleToggle('bulimia')} />
+                  <label className="form-check-label" htmlFor="checkbulimia">{t.bulimia}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.hemophilia} onChange={() => handleToggle('hemophilia')} />
+                  <label className="form-check-label" htmlFor="checkhemophilia">{t.hemophilia}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.rheumaticHeartDisease} onChange={() => handleToggle('rheumaticHeartDisease')} />
+                  <label className="form-check-label" htmlFor="checkrheumaticHeartDisease">{t.rheumaticHeartDisease}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 10 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.cancer} onChange={() => handleToggle('cancer')} />
+                  <label className="form-check-label" htmlFor="checkcancer">{t.cancer}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.hepatitis} onChange={() => handleToggle('hepatitis')} />
+                  <label className="form-check-label" htmlFor="checkhepatitis">{t.hepatitis}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.sickleCellDisease} onChange={() => handleToggle('sickleCellDisease')} />
+                  <label className="form-check-label" htmlFor="checksickleCellDisease">{t.sickleCellDisease}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 11 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.chemicalDependency} onChange={() => handleToggle('chemicalDependency')} />
+                  <label className="form-check-label" htmlFor="checkchemicalDependency">{t.chemicalDependency}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.hivAids} onChange={() => handleToggle('hivAids')} />
+                  <label className="form-check-label" htmlFor="chckhivAids">{t.hivAids}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.sinusTrouble} onChange={() => handleToggle('sinusTrouble')} />
+                  <label className="form-check-label" htmlFor="checkSinusTrouble">{t.sinusTrouble}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 12 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.chemotherapy} onChange={() => handleToggle('chemotherapy')} />
+                  <label className="form-check-label" htmlFor="checkchemotherapy">{t.chemotherapy}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.kidneyProblems} onChange={() => handleToggle('kidneyProblems')} />
+                  <label className="form-check-label" htmlFor="checkkidneyProblems">{t.kidneyProblems}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.stroke} onChange={() => handleToggle('stroke')} />
+                  <label className="form-check-label" htmlFor="checkstroke">{t.stroke}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 13 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.chestPain} onChange={() => handleToggle('chestPain')} />
+                  <label className="form-check-label" htmlFor="checkchestPain">{t.chestPain}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.learningDisability} onChange={() => handleToggle('learningDisability')} />
+                  <label className="form-check-label" htmlFor="checklearningDisability">{t.learningDisability}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.thyroidDisease} onChange={() => handleToggle('thyroidDisease')} />
+                  <label className="form-check-label" htmlFor="checkthyrodiDisease">{t.thyroidDisease}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 14*/}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.congenitalHeartDisease} onChange={() => handleToggle('congenitalHeartDisease')} />
+                  <label className="form-check-label" htmlFor="checkcongenitalHeartDisease">{t.congenitalHeartDisease}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.liverDisease} onChange={() => handleToggle('liverDisease')} />
+                  <label className="form-check-label" htmlFor="checkliverDisease">{t.liverDisease}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.tuberculosis} onChange={() => handleToggle('tuberculosis')} />
+                  <label className="form-check-label" htmlFor="checktuberculosis">{t.tuberculosis}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 15 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.cortisoneMedicine} onChange={() => handleToggle('cortisoneMedicine')} />
+                  <label className="form-check-label" htmlFor="checkCortisoneMedicine">{t.cortisoneMedicine}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.lungDisease} onChange={() => handleToggle('lungDisease')} />
+                  <label className="form-check-label" htmlFor="checklungDisease">{t.lungDisease}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.tumors} onChange={() => handleToggle('tumors')} />
+                  <label className="form-check-label" htmlFor="checktumors">{t.tumors}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 16 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.diabetes} onChange={() => handleToggle('diabetes')} />
+                  <label className="form-check-label" htmlFor="checkdiabetes">{t.diabetes}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.mitralValveProlapse} onChange={() => handleToggle('mitralValveProlapse')} />
+                  <label className="form-check-label" htmlFor="checkmitralValveProlapse">{t.mitralValveProlapse}</label>
+                </div>
+              </div>
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.ulcers} onChange={() => handleToggle('ulcers')} />
+                  <label className="form-check-label" htmlFor="checkulcers">{t.ulcers}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 17 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.emphysema} onChange={() => handleToggle('emphysema')} />
+                  <label className="form-check-label" htmlFor="checkeemphysema">{t.emphysema}</label>
+                </div>
+              </div>
+              {/* Column 2 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.neurologicalDisorders} onChange={() => handleToggle('neurologicalDisorders')} />
+                  <label className="form-check-label" htmlFor="checkneurologicalDisorders">{t.neurologicalDisorders}</label>
+                </div>
+              </div>
+
+              {/* Column 3 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.venerealDisease} onChange={() => handleToggle('venerealDisease')} />
+                  <label className="form-check-label" htmlFor="checkvenerealDisease">{t.venerealDisease}</label>
+                </div>
+              </div>
+            </div>
+            {/* Row 18 */}
+            <div className="row">
+              {/* Column 1 */}
+              <div className="col-md-4">
+                <div className="form-check form-switch">
+                  <input className="form-check-input" type="checkbox" checked={medicalHistory.organTransplant} onChange={() => handleToggle('organTransplant')} />
+                  <label className="form-check-label" htmlFor="checkorganTransplant">{t.organTransplant}</label>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div className="row mb-3">
+              <h6>{t.hospitalizationAccident}</h6>
+              <div className="col">
+                <input name="hospitalizationAccident" className="form-control" placeholder={t.ifYesExplain} value={medicalHistory.hospitalizationAccident} suppressHydrationWarning={true} onChange={handleChange} />
+              </div>
+            </div>
+            {/* do you smoke question */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="smokeQuestion" className="form-label">{t.tabacco}</label>
+                <input className="form-control" id="smokeQuestion" list="smokeQuestionanswers" name='smokeTabaccoProducts' placeholder={t.option} value={medicalHistory.smokeTabaccoProducts || ''} onChange={handleChange} />
+                <datalist id="smokeQuestionanswers">
+                  <option value={t.iDontSmooke} />
+                  <option value={t.cigarrettes} />
+                  <option value={t.vape} />
+                  <option value={t.pipe} />
+                </datalist>
+              </div>
+            </div>
+            {/* do you drink alcohol? question */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="alcoholQuestion" className="form-label">{t.alcohol}</label>
+                <input className="form-control" id="alcoholQuestion" list="alcoholQuestionanswers" name='drinkAlcohol' placeholder={t.option} value={medicalHistory.drinkAlcohol || ''} onChange={handleChange} />
+                <datalist id="alcoholQuestionanswers">
+                  <option value={t.dontDrinkAlcohl} />
+                  <option value={t.drinkOccasionally} />
+                  <option value={t.drinkRegularly} />
+                </datalist>
+              </div>
+            </div>
+            {formData.sexAtBirth === t.female && (
+              <>
+                <div className="row mb-3">
+                  <h6 className="text-center">{t.onlyWomen}</h6>
+                  <div className="col-md-6">
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" checked={medicalHistory.pregnant} onChange={() => handleToggle('pregnant')} />
+                      <label className="form-check-label" htmlFor="checkpregnant">{t.pregnant}</label>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" checked={medicalHistory.nursing} onChange={() => handleToggle('nursing')} />
+                      <label className="form-check-label" htmlFor="checkallergicnursing">{t.nursing}</label>
+                    </div>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <input name="nOfPregnancies" className="form-control" placeholder={t.nOfPregnancies} value={medicalHistory.nOfPregnancies} onChange={handleChange} />
+                  </div>
+                  <div className="col-md-6">
+                    <input name="nOfLivingChildren" className="form-control" placeholder={t.nOfLivingChildren} value={medicalHistory.nOfLivingChildren} onChange={handleChange} />
+                  </div>
+                </div>
+                <div className="row mb">
+                  <div className="col-md-12">
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" checked={medicalHistory.birthControlMedication} onChange={() => handleToggle('birthControlMedication')} />
+                      <label className="form-check-label" htmlFor="checkbirthControlMedication">{t.birthControlMedication}</label>
+                    </div>
+                  </div>
+                  <div className="col-mb-12">
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" checked={medicalHistory.becomingPregnant} onChange={() => handleToggle('becomingPregnant')} />
+                      <label className="form-check-label" htmlFor="checkanticipateBecomingPregnant">{t.becomingPregnant}</label>
+                    </div>
+                  </div>
+                </div>
+              </>)}
+            <div className="row mb-3">
+              <div className="col">
+                <h4 className="card-header text-center">{t.dentalHistory}</h4>
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col">
+                <label>{t.lastDentalVisit}</label>
+                <input name="dateLastDentalVisit" type='date' className="form-control" value={dentalHistory.dateLastDentalVisit || ''} onChange={handleChange} />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col">
+                <label>{t.dentalProblem}</label>
+                <input name="problemBroughtYouIn" type='text' placeholder={t.ifYesExplain} className="form-control" value={dentalHistory.problemBroughtYouIn} onChange={handleChange} />
+              </div>
+            </div>
+            {/* Question 1 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput" className="form-label">{t.gumsBleed}</label>
+                <input className="form-control" id="answerOptionsInput" list="answerOptionsDetalist" name='gumsBleed' placeholder={t.option} value={dentalHistory.gumsBleed || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 2 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput2" className="form-label">{t.tempSensitivity}</label>
+                <input className="form-control" id="answerOptionsInput2" list="answerOptionsDetalist2" name='teethSensitiveToHotCold' placeholder={t.option} value={dentalHistory.teethSensitiveToHotCold || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist2">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 3 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput3" className="form-label">{t.tasteSensitivity}</label>
+                <input className="form-control" list="answerOptionsDetalist3" id="answerOptionsInput3" name='teethSensitiveToSweets' placeholder={t.option} value={dentalHistory.teethSensitiveToSweets || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist3">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 4 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput4" className="form-label">{t.toothPain}</label>
+                <input className="form-control" list="answerOptionsDetalist4" id="answerOptionsInput4" name='painTeeth' placeholder={t.option} value={dentalHistory.painTeeth || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist4">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 5 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput5" className="form-label">{t.mouthSore}</label>
+                <input className="form-control" list="answerOptionsDetalist5" id="answerOptionsInput5" name='haveSoreOrLumpsInMouth' placeholder={t.option} value={dentalHistory.haveSoreOrLumpsInMouth || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist5">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  {/* <option value={t.sometimes}/> */}
+                </datalist>
+              </div>
+            </div>
+            {/* Question 6 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput6" className="form-label">{t.jawInjury}</label>
+                <input className="form-control" list="answerOptionsDetalist6" id="answerOptionsInput6" name='neckJawInjuries' placeholder={t.option} value={dentalHistory.neckJawInjuries || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist6">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  {/* <option value={t.sometimes}/> */}
+                </datalist>
+              </div>
+            </div>
+            {/* Question 7 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput7" className="form-label">{t.headaches}</label>
+                <input className="form-control" list="answerOptionsDetalist7" id="answerOptionsInput7" name='headaches' placeholder={t.option} value={dentalHistory.headaches || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist7">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 8 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput8" className="form-label">{t.grindTeeth}</label>
+                <input className="form-control" list="answerOptionsDetalist8" id="answerOptionsInput8" name='grindTeeth' placeholder={t.option} value={dentalHistory.grindTeeth || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist8">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 9 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput9" className="form-label">{t.biteCheek}</label>
+                <input className="form-control" list="answerOptionsDetalist9" id="answerOptionsInput9" name='biteCheeksLips' placeholder={t.option} value={dentalHistory.biteCheeksLips || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist9">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 10 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput10" className="form-label">{t.jawClick}</label>
+                <input className="form-control" list="answerOptionsDetalist10" id="answerOptionsInput10" name='expereiencedClickingJaw' placeholder={t.option} value={dentalHistory.expereiencedClickingJaw || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist10">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 11 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput11" className="form-label">{t.facePain}</label>
+                <input className="form-control" list="answerOptionsDetalist11" id="answerOptionsInput11" name='faceEarjointPain' placeholder={t.option} value={dentalHistory.faceEarjointPain || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist11">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 12 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput12" className="form-label">{t.mouthOpen}</label>
+                <input className="form-control" list="answerOptionsDetalist12" id="answerOptionsInput12" name='difficultyOpeningMouth' placeholder={t.option} value={dentalHistory.difficultyOpeningMouth || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist12">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 13 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput13" className="form-label">{t.chewing}</label>
+                <input className="form-control" list="answerOptionsDetalist13" id="answerOptionsInput13" name='difficultyChewing' placeholder={t.option} value={dentalHistory.difficultyChewing || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist13">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                  <option value={t.sometimes} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 14 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput14" className="form-label">{t.ortho}</label>
+                <input className="form-control" list="answerOptionsDetalist14" id="answerOptionsInput14" name='orthodontic' placeholder={t.option} value={dentalHistory.orthodontic || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist14">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 15 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput15" className="form-label">{t.extractionBleed}</label>
+                <input className="form-control" list="answerOptionsDetalist15" id="answerOptionsInput15" name='dentalProlongedBleeding' placeholder={t.option} value={dentalHistory.dentalProlongedBleeding || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist15">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 16 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput16" className="form-label">{t.brushingInstr}</label>
+                <input className="form-control" list="answerOptionsDetalist16" id="answerOptionsInput16" name='instructioinsOfBrushing' placeholder={t.option} value={dentalHistory.instructioinsOfBrushing || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist16">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                </datalist>
+              </div>
+            </div>
+            {/* Question 17 */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput17" className="form-label">{t.gumInstr}</label>
+                <input className="form-control" list="answerOptionsDetalist17" id="answerOptionsInput17" name='careOfGums' placeholder={t.option} value={dentalHistory.careOfGums || ''} onChange={handleChange} />
+                <datalist id="answerOptionsDetalist17">
+                  <option value={t.yes} />
+                  <option value={t.no} />
+                </datalist>
+              </div>
+            </div>
+            {/* Comments */}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="answerOptionsInput17" className="form-label">{t.comments}</label>
+                <textarea
+                  className="form-control"
+                  id="answerOptionsInput17"
+                  name='dentalComments'
+                  placeholder={t.writeComments}
+                  style={{ minHeight: '100px', fontSize: '16px' }}
+                  value={dentalHistory.dentalComments || ''}
+                  onChange={handleChange}
+                  maxLength={500} // Limits input to 500 characters
+                />
+
+              </div>
+            </div>
+
+            {/* Disclaimer */}
+            <div className="row mb-3">
+              <div className="col">
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item">{t.iHaveRead}<b>{t.noticePrivacy}</b>
+                    (
+                    <Link href="/privacy-policy/en" target="_blank" className="text-decoration-none">English</Link>
+                    |
+                    <Link href="/privacy-policy/es" target="_blank" className="text-decoration-none">Español</Link>
+                    ).
+                    {t.copy}
+                  </li>
+                  <li className="list-group-item">{t.authStaff}</li>
+                  <li className="list-group-item">{t.bySigningThisDoc} <b>{t.cancelPolicy}</b></li>
+                  <li className="list-group-item">{t.respCost} <b>{t.totalObligation}</b></li>
+                  <li className="list-group-item"><b>{t.certifyInfo}</b>{t.notHold}</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="row mb-3">
+              <label className="form-label fs-4"><b>{t.signature}</b></label>
+              <SignatureForm
+               clearLabel={t.clearSig}
+               onSave={(data) => setSignatureData(data)} />
+              <br />
+              <div className="mt-4">
+                <Button variant="primary" type="submit" className="me-2">
+                  {t.send}
+                </Button>
+                <Button variant="secondary" type="button" onClick={handleChange}>
+                  {t.clearForm}
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </Form >
+    </Container >
+  );
+};
 
-    </Form >
-  </Container >
-);
-}
