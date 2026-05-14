@@ -1,9 +1,13 @@
 "use client";
 import { unstable_useCacheRefresh, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import { jsPDF } from "jspdf";
-import SignatureForm from "./SignatureForm";
+//import { jsPDF } from "jspdf";
+
+import jsPDF from "jspdf/dist/jspdf.umd.min.js";
 import autoTable from 'jspdf-autotable';
+
+import SignatureForm from "./SignatureForm";
+
 import AbstractModalHeader from 'react-bootstrap/esm/AbstractModalHeader';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -456,51 +460,52 @@ export default function MyForm() {
 
   //Clears the form data and resets all fields to their default values when the "Clear Form" button is clicked
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target;
-  
-  setFormData((prevData) => ({
-    ...prevData, // This keeps the other fields from disappearing
-    [name]: value, // This updates only the field you are typing in
-  }));
-  setMedicalHistory((prevData) => ({
-    ...prevData,
-    [name]: value,  
-  }));
-  setDentalHistory((prevData) => ({
-    ...prevData,
-    [name]: value,  
-  }));
+    const { name, value } = e.target;
 
+    setFormData((prevData) => ({
+      ...prevData, // This keeps the other fields from disappearing
+      [name]: value, // This updates only the field you are typing in
+    }));
+    setMedicalHistory((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    setDentalHistory((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
 
-};
-  
-  // const handleChange = () => {
-  //   setFormData({
-  //     firstName: '', lastName: '', dateOfBirth: '', nss: '', address: '', address2: '',
-  //     city: '', state: '', zipCode: '', cellPhone: '', homePhone: '', workPhone: '', email: '',
-  //     sexAtBirth: '', gender: '', emergencyContactName: '', emergencyContactRelationship: '', emergencyContactPhone: '',
-  //     nameOfPhysician: '', physicianPhone: '', physicianAddress: '', dateLastExam: ''
-  //   });
-  //   setMedicalHistory({
-  //     underCareofAnything: '', takingMedication: '', haveAllergies: '', allergicToLatex: false, bloodPressure: false,
-  //     epilepsy: false, osteoporosis: false, alcoholAddiction: false, faintingSpells: false, prolongedBleeding: false,
-  //     anemia: false, feverBlisters: false, prostheticImplants: false, anorexia: false, glaucoma: false, psychiatricCare: false,
-  //     arthritisRheumatism: false, hearingImpaired: false, radiationTherapy: false, artificialHeartValve: false, heartDiseaseSurgery: false,
-  //     recreationalDrugUse: false, artificialJoint: false, heartMurmur: false, removalofSpleen: false, asthma: false,
-  //     heartPacemaker: false, rheumaticFever: false, bulimia: false, hemophilia: false, rheumaticHeartDisease: false, cancer: false,
-  //     hepatitis: false, sickleCellDisease: false, chemicalDependency: false, hivAids: false, sinusTrouble: false, chemotherapy: false,
-  //     kidneyProblems: false, stroke: false, chestPain: false, learningDisability: false, thyroidDisease: false, congenitalHeartDisease: false,
-  //     liverDisease: false, tuberculosis: false, cortisoneMedicine: false, lungDisease: false, tumors: false, diabetes: false,
-  //     mitralValveProlapse: false, ulcers: false, emphysema: false, neurologicalDisorders: false, venerealDisease: false, organTransplant: false, hospitalizationAccident: "",
-  //     smokeTabaccoProducts: "", drinkAlcohol: "", pregnant: false, nursing: false, nOfPregnancies: "", nOfLivingChildren: "", birthControlMedication: false, becomingPregnant: false
-  //   });
-  //   setDentalHistory({
-  //     dateLastDentalVisit: '', problemBroughtYouIn: '', gumsBleed: '', teethSensitiveToHotCold: '', teethSensitiveToSweets: '', painTeeth: '', haveSoreOrLumpsInMouth: '', neckJawInjuries: '',
-  //     headaches: '', grindTeeth: '', biteCheeksLips: '',
-  //     expereiencedClickingJaw: '', faceEarjointPain: '', difficultyOpeningMouth: '', difficultyChewing: '', orthodontic: '', dentalProlongedBleeding: '', instructioinsOfBrushing: '',
-  //     careOfGums: '', dentalComments: ''
-  //   });
-  // };
+  };
+
+  const handleClearForm = () => {
+    setFormData({
+      firstName: '', lastName: '', dateOfBirth: '', nss: '', address: '', address2: '',
+      city: '', state: '', zipCode: '', cellPhone: '', homePhone: '', workPhone: '', email: '',
+      sexAtBirth: '', gender: '', emergencyContactName: '', emergencyContactRelationship: '', emergencyContactPhone: '',
+      nameOfPhysician: '', physicianPhone: '', physicianAddress: '', dateLastExam: ''
+    });
+    setMedicalHistory({
+      underCareofAnything: '', takingMedication: '', haveAllergies: '', allergicToLatex: false, bloodPressure: false,
+      epilepsy: false, osteoporosis: false, alcoholAddiction: false, faintingSpells: false, prolongedBleeding: false,
+      anemia: false, feverBlisters: false, prostheticImplants: false, anorexia: false, glaucoma: false, psychiatricCare: false,
+      arthritisRheumatism: false, hearingImpaired: false, radiationTherapy: false, artificialHeartValve: false, heartDiseaseSurgery: false,
+      recreationalDrugUse: false, artificialJoint: false, heartMurmur: false, removalofSpleen: false, asthma: false,
+      heartPacemaker: false, rheumaticFever: false, bulimia: false, hemophilia: false, rheumaticHeartDisease: false, cancer: false,
+      hepatitis: false, sickleCellDisease: false, chemicalDependency: false, hivAids: false, sinusTrouble: false, chemotherapy: false,
+      kidneyProblems: false, stroke: false, chestPain: false, learningDisability: false, thyroidDisease: false, congenitalHeartDisease: false,
+      liverDisease: false, tuberculosis: false, cortisoneMedicine: false, lungDisease: false, tumors: false, diabetes: false,
+      mitralValveProlapse: false, ulcers: false, emphysema: false, neurologicalDisorders: false, venerealDisease: false, organTransplant: false, hospitalizationAccident: "",
+      smokeTabaccoProducts: "", drinkAlcohol: "", pregnant: false, nursing: false, nOfPregnancies: "", nOfLivingChildren: "", birthControlMedication: false, becomingPregnant: false
+    });
+    setDentalHistory({
+      dateLastDentalVisit: '', problemBroughtYouIn: '', gumsBleed: '', teethSensitiveToHotCold: '', teethSensitiveToSweets: '', painTeeth: '', haveSoreOrLumpsInMouth: '', neckJawInjuries: '',
+      headaches: '', grindTeeth: '', biteCheeksLips: '',
+      expereiencedClickingJaw: '', faceEarjointPain: '', difficultyOpeningMouth: '', difficultyChewing: '', orthodontic: '', dentalProlongedBleeding: '', instructioinsOfBrushing: '',
+      careOfGums: '', dentalComments: ''
+    });
+
+    
+  };
 
   //Flips the boolean value of the medical and dental history checkboxes when toggled
   const handleToggle = (condition) => {
@@ -521,12 +526,23 @@ export default function MyForm() {
 
 
   const generatePDF = async () => {
-    const doc = new jsPDF();
+    // Example: Using DOB as the open password
+    const userPass = formData.dateOfBirth.replace(/-/g, ""); // Converts 1990-05-13 to 19900513
+
+    const doc = new jsPDF({ encryption: {
+    userPassword: userPass,
+    ownerPassword: "Zamora2751",
+    userPermissions: ["print", "modify", "copy", "annot-forms"]
+  }
+});
+
     let logoData = null;
     const today = new Date();
     const dateString = today.toLocaleDateString();
     const margin = 20;
     const pageWidth = 170;
+    
+
 
     // 4. Add to PDF (X: 10, Y: 1, Width: 50, Height: 100)
     // doc.addImage(logoData, 'PNG', 18, 5, 63, 27);
@@ -552,7 +568,7 @@ export default function MyForm() {
     const addHeader = (pdfDoc) => {
       if (logoData) pdfDoc.addImage(logoData, 'PNG', 18, 5, 63, 27);
       pdfDoc.setFontSize(10);
-      pdfDoc.text(`Page ${pdfDoc.internal.getNumberOfPages()}`, 180, 20, { align: 'right' });
+      //pdfDoc.text(`Page ${pdfDoc.internal.getNumberOfPages()}`, 180, 20, { align: 'right' });
     };
 
     addHeader(doc);
@@ -1003,7 +1019,7 @@ export default function MyForm() {
               <input
                 name="firstName"
                 className="form-control"
-                placeholder={t.firstName ||""}
+                placeholder={t.firstName || ""}
                 value={formData.firstName}
                 onChange={handleChange}
                 suppressHydrationWarning // Add this here
@@ -2105,14 +2121,14 @@ export default function MyForm() {
             <div className="row mb-3">
               <label className="form-label fs-4"><b>{t.signature}</b></label>
               <SignatureForm
-               clearLabel={t.clearSig}
-               onSave={(data) => setSignatureData(data)} />
+                clearLabel={t.clearSig}
+                onSave={(data) => setSignatureData(data)} />
               <br />
               <div className="mt-4">
                 <Button variant="primary" type="submit" className="me-2">
                   {t.send}
                 </Button>
-                <Button variant="secondary" type="button" onClick={handleChange}>
+                <Button variant="secondary" type="button" onClick={handleClearForm}>
                   {t.clearForm}
                 </Button>
               </div>
