@@ -218,7 +218,8 @@ const content = {
     clearSig: "Clear Signature",
     send: "Send Signed PDF",
     clearForm: "Clear Form",
-    toggleBtn: "Español"
+    toggleBtn: "Español",
+    openPDF:"The password to open your PDF is your date of birth in the format YYYYMMDD. For example, if you were born on May 13, 1990, the password would be 19900513."
   },
   es: {
     langButton: "English",
@@ -416,7 +417,8 @@ const content = {
     clearSig: "Borrar Firma",
     send: "Enviar PDF Firmado",
     clearForm: "Limpiar Formulario",
-    toggleBtn: "English"
+    toggleBtn: "English",
+     openPDF:"La contraseña para abrir su PDF es su fecha de nacimiento en el formato YYYYMMDD. Por ejemplo, si nació el 13 de mayo de 1990, la contraseña sería 19900513."
   }
 };
 
@@ -2117,7 +2119,6 @@ export default function MyForm() {
                 </ul>
               </div>
             </div>
-
             <div className="row mb-3">
               <label className="form-label fs-4"><b>{t.signature}</b></label>
               <SignatureForm
@@ -2133,6 +2134,13 @@ export default function MyForm() {
                 </Button>
               </div>
             </div>
+            <br />
+              <div className="row mb-3">
+                <div className="col">
+                  <p className="fst-italic text-center"><b>{t.openPDF}</b></p>
+                </div>
+                </div>
+
           </div>
         </div>
       </Form >
